@@ -96,9 +96,9 @@ const Hero = () => {
 
     e.preventDefault();
     setAmount(amount);
-    console.log(formData);
+    console.log(amount,"this is amount 👌👌👌👌");
 
-    if (!amount) return;
+    if (!amount.length) return;
     
      sendTransaction()
     
@@ -298,7 +298,7 @@ const Hero = () => {
 
             <button
               type="button"
-              onSubmit={handleSubmit}
+              onClick={handleSubmit}
               className="w-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
             >
               Buy And Stake Pepe Coin
