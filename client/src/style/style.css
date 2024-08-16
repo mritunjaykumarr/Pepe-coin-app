@@ -1,0 +1,515 @@
+/* ////////////////////////////////////////// 
+
+ HEADER SECTION CSS CLASS
+
+ ///////////////////////////////////////// */
+
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 48px;
+    height: 98px;
+    /* background-color: #00886ff3; */
+    background-color: var(--primary-color);
+    position: relative;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    color: #f9f8f8;
+    font-weight: 500;
+    font-size: 24px;
+    /* -webkit-text-stroke: 1px #000; */
+}
+
+.logo {
+    height: 54px;
+    width: 54px;
+    border-radius: 50%;
+    border: 2px solid #450606;
+    background: #6c9c0a;
+}
+
+.main-nav-list {
+    list-style: none;
+
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+
+.main-nav-link:link,
+.main-nav-link:visited {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+}
+
+.nav-cta:link,
+.nav-cta:visited {
+    font-size: 2px;
+    font-weight: 600;
+    padding: 12px 3px;
+
+    background: var(--primary-btn-color);
+    color: var(--grey-color);
+    border-radius: .9px;
+    font-weight: bold;
+
+}
+
+
+
+
+.main-nav-link.active {
+    color: #abff87 !important;
+}
+
+/* MOBILE FORMAT NAV */
+.btn-mobile-nav {
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    display: none;
+}
+
+.icon-mobile-nav {
+    height: 48px;
+    width: 48px;
+    color: #fff;
+}
+
+.icon-mobile-nav[name="close-outline"] {
+    display: none;
+}
+
+/* STICKY NAVIGATION */
+.sticky .header {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 8px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: var(--primary-color);
+    z-index: 999;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.03);
+}
+
+.sticky .section-hero {
+    margin-top: 96px;
+}
+
+/* ////////////////////////////////////////// 
+
+ HERO SECTION CSS CLASS
+
+ ///////////////////////////////////////// */
+.section-hero {
+    /* background-color: #00886ff3; */
+    background-color: var(--primary-color);
+
+    /* margin-bottom: 96px; */
+    position: relative;
+    /* overflow: hidden; */
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding-bottom:  89px;
+    /* z-index: -1; */
+}
+
+.hero-heading-field {
+    color: var(--hero-par-color);
+}
+
+/* .hut {
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+    opacity: 80%;
+} */
+/* .section-hero::before {
+    
+    /* z-index: -1; */
+.video {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 20%;
+    object-fit: cover;
+    /* pointer-events: none */
+}
+
+/* ////////////////////////////////////////// 
+FEATURES SECTION CSSS
+ ///////////////////////////////////////// */
+.section-features {
+    background: radial-gradient(#595709, transparent)
+}
+
+.coin-man {
+    width: 100%;
+
+}
+
+.shape {
+    clip-path: polygon(49% 12%, 92% 31%, 100% 85%, 40% 138%, 9% 80%, 0 14%);
+    height: 10px;
+    color: #d4cec7;
+    background-color: rgb(129 117 66);
+    margin-bottom: 10px;
+    box-shadow: rgb(52 35 0 / 19%) 54px 44px 12px;
+    font-weight: bold;
+    padding: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.feature-box h2 {
+    font-style: oblique;
+    font-optical-sizing: 16px;
+    -webkit-text-stroke: 3px #231f01;
+    color: #919f87;
+}
+
+.feature-box h4 {
+    color: #887b57;
+    -webkit-text-stroke: 2px #000;
+    font-style: oblique;
+}
+
+/* ///////////////////////////////////////////////////// */
+.section-contract {
+    position: relative;
+}
+
+.section-contract::before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-image: url(/src/img/mediting-frog.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0px -60px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 15%;
+    z-index: -1;
+
+}
+
+.contract {
+    text-align: center;
+    /* z-index: -1; */
+    /* font-size: 4px; */
+}
+
+.contract-img img {
+    width: 100%;
+}
+
+.contract p {
+    margin-top: 36px;
+    /* text-align: center; */
+    color: #333;
+}
+
+
+/* ///////////////////////////////////////////// */
+.section-faq {
+    /* margin-top: 96px; */
+}
+
+.faq-details {
+    border: 3px solid violet;
+    padding: 64px;
+
+    width: 600px;
+    height: 450px;
+}
+
+.section-faq .grid {
+    gap: 48px;
+}
+
+.faq-details h3 {
+    margin-bottom: 24px;
+    text-align: center;
+    margin-top: 24px;
+    text-transform: uppercase;
+}
+
+.faq-details p {
+    text-align: center;
+}
+
+.drop-down {
+    margin-top: 32px;
+}
+
+.drop-down p {
+    border: 2px solid indigo;
+    text-transform: uppercase;
+    padding: 12px;
+}
+
+.btn-show {
+    font-size: 28px;
+    background: none;
+    display: flex;
+    align-items: center;
+}
+
+.open-icon {
+    width: 54px;
+    margin-left: 136px;
+    border-radius: 50%;
+    background-color: rosybrown;
+    height: 54px;
+}
+
+.open-icon svg {
+    color: #fff;
+}
+
+.card-body {
+    font-size: 18px;
+    line-height: 1.7;
+    /* margin-top: 24px; */
+    border: 2px solid red;
+    border-top: 0;
+    padding: 32px;
+    margin: 0 3px;
+    border-radius: 0 0 24px 24px;
+
+}
+
+.collapse {
+    display: none;
+}
+
+/* ////////////////////////////////////////////////// */
+.section-roadmap {
+    /* position: relative; */
+    background-color: #021526;
+    height: 80px;
+}
+
+/* .section-roadmap::before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-image: url(/src/img/hut.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0px -60px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 15%;
+    z-index: -1;
+
+} */
+
+.section-roadmap .secondary-heading {
+    padding-top: 9px;
+}
+
+.roadmap {
+    gap: 96px;
+}
+
+/* /////////////////////////////////////////////////// */
+.section-how {
+    height: 100px;
+    position: relative;
+}
+
+.section-how::before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-image: url(/src/img/standing-frog.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0px -60px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 60%;
+    z-index: -1;
+}
+
+.section-how-box {
+    padding: 0 48px;
+}
+
+.section-how h4 {
+    text-transform: uppercase;
+    margin-bottom: 24px;
+
+}
+
+
+.step-heading {
+    margin-bottom: 32px;
+
+}
+
+
+.stand-frog img {
+    width: 100%;
+}
+
+.article-box {
+    background-color: #3a4602;
+    padding: 32px;
+    border-radius: 24px;
+    width: 50px;
+}
+
+.js-end {
+    justify-self: end;
+}
+
+.step-des {
+    margin-top: 1px;
+
+}
+
+.option-to-buy .btn-show {
+    font-size: 24px !important;
+}
+
+.icon-plus {
+    margin-left: 17px;
+    width: 4px;
+    height: 4px;
+}
+
+.option-to-buy .drop-down p {
+    padding: 0;
+}
+
+/* ////////////////////////////////////////// */
+.section-safe {
+    background-color: #03346E;
+}
+
+.section-safe p {
+    margin-top: 24px;
+    margin-bottom: 3px;
+    text-align: center;
+}
+
+.section-safe h3 {
+    text-align: center;
+}
+
+.section-safe a {
+    /* margin-top: 3px; */
+    text-align: center;
+    display: block;
+
+}
+
+.section-safe h2 {
+    text-align: center;
+}
+
+/* ////////////////////////////////////// */
+.section-referral {
+    background-color: #03346E;
+    height: 60px;
+}
+
+.section-referral .box {
+    text-align: center;
+}
+
+.section-referral .container {
+    padding-top: 32px;
+}
+
+/* /////////////////////////////////// */
+.bg-color {
+    background-color: #E2E2B6;
+}
+
+.bg-color .para-level-2 {
+    color: #333;
+}
+
+.input-field {
+    display: block;
+    width: 100%;
+    height: 4px;
+    padding: 1px;
+    border-radius: 9px;
+}
+
+.privacy-policy {
+    /* display: block; */
+    font-size: 14px;
+}
+
+.checkbox-field {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.form-frog img {
+    width: 100%;
+}
+
+.section-form {
+    background-color: rosybrown
+}
+
+.form-box {
+    padding: 64px;
+    margin-bottom: 48px;
+}
+
+/* //////////////////////////////////////////// */
+.footer-main-list {
+    list-style: none;
+}
+
+.footer {
+    background-color: var(--primary-color);
+    padding: 24px;
+    padding-bottom: 0;
+    height: 35px;
+}
+
+.footer-logo-box {
+    position: relative;
+}
+
+.footer-logo {
+    /* width: 100%; */
+    position: absolute;
+    top: -295px;
+    right: -22px
+}

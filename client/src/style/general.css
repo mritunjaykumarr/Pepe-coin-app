@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    /* --primary-color: #154027; */
+    --primary-color: #1f2937;
+    --hero-para-color: #ecffe1;
+    --primary-btn-color: linear-gradient(90deg, #f6fff2 0%, #c3ffa9 100%);
+    --grey-color: #333;
+    --icon-color: #d97706;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    /* font-size: 10px; */
+
+    /* 10px / 16px = 0.625 = 62.5% */
+    /* Percentage of user's browser font-size setting */
+    /* font-size: 62.5%; */
+    overflow-x: hidden;
+    font-family: "Poppins", sans-serif;
+    /* Does NOT work on Safari */
+    /* scroll-behavior: smooth; */
+}
+
+body {
+    font-family: serif;
+    line-height: 1;
+    font-weight: 400;
+    color: #333;
+
+
+    /* Only works if there is nothing absolutely positioned in relation to body */
+    /* overflow-x: hidden; */
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn,
+.btn:link,
+.btn:visited {
+    display: inline-block;
+
+
+    font-size: 2px;
+    font-weight: 600;
+    padding: 12px 42px;
+    border-radius: .9px;
+    /* Only necessary for .btn */
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+
+    /* Put transition on original "state" */
+    /* transition: background-color 0.3s; */
+    transition: all 0.3s;
+    background: var(--primary-btn-color);
+    color: var(--grey-color);
+
+}
+
+/* .btn:hover {
+    background-color: #005242;
+    color: #b3dbd4;
+} */
+
+.submit-form {
+    padding: 12px 19px;
+    margin-top: 32px;
+}
+
+.feature-btn {
+    background-color: #14ade0b0;
+    color: #333;
+    border: 2px solid #14ade0fb !important;
+}
+
+.info-btn {
+    width: 90%;
+    background-color: antiquewhite;
+    border: 1px solid #000 !important;
+}
+
+.copy-btn {
+    padding: 12px 72px !important;
+    background-color: aliceblue;
+    border: 2px solid purple !important;
+}
+
+.download-btn {
+    background-color: rgb(234, 153, 71);
+
+}
+
+
+
+/* CSS */
+.button-50 {
+    appearance: button;
+    background-color: #000;
+    background-image: none;
+    border: 1px solid #000;
+    border-radius: 4px;
+    box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0 5px 10px 0;
+    overflow: visible;
+    padding: 12px 40px;
+    text-align: center;
+    text-transform: none;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.button-50:focus {
+    text-decoration: none;
+}
+
+.button-50:hover {
+    text-decoration: none;
+}
+
+.button-50:active {
+    box-shadow: rgba(0, 0, 0, .125) 0 3px 5px inset;
+    outline: 0;
+}
+
+.button-50:not([disabled]):active {
+    box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+    transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+    .button-50 {
+        padding: 12px 50px;
+    }
+}
+
+.send-me {
+    padding: 12px 64px;
+    background-color: purple;
+}
+
+.grid {
+    display: grid;
+}
+
+.grid-2-cols {
+    grid-template-columns: 1fr 1fr;
+}
+
+.grid-3-cols {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-4-cols {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-6-cols {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.grid-dir {
+    grid-auto-flow: row;
+}
+
+.gap {
+    gap: 48px;
+}
+
+.container {
+    max-width: 1300px;
+    padding: 0 32px;
+    margin: 0 auto;
+}
+
+.heading-primary,
+.secondary-heading,
+.heading-h3,
+.heading-h4,
+.heading-h5,
+.heading-6 {
+    font-family: "Alfa Slab One", serif;
+    line-height: 1.2;
+    font-weight: 400;
+    font-style: normal;
+    /* background: linear-gradient(0deg, #f6fff2 0%, #c3ffa9 100%) */
+
+}
+
+.heading-primary {
+    font-size: 64px;
+    text-transform: uppercase;
+    /* color: #004437; */
+    background: linear-gradient(0deg, #f6fff2 0%, #c3ffa9 100%);
+    background-clip: text;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: #0d142f;
+
+
+}
+
+.secondary-heading {
+    font-size: 32px;
+    background-color: rgb(98, 237, 98);
+    text-transform: uppercase;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #000;
+    /* -webkit-text-stroke: 2px #000; */
+}
+
+.ml-48 {
+    margin-left: 48px;
+}
+
+.mb-24 {
+    margin-bottom: 2.4px;
+}
+
+.mt-12 {
+    margin-top: 12px;
+}
+
+/* 
+<span className="flex items-center justify-center gap-2"
+
+><FaEthereum /><ion-icon name="chevron-up-outline"></ion-icon></span> */
+.mt-18 {
+    margin-top: 18px;
+}
+
+.mt-32 {
+    margin-top: 32px;
+}
+
+.mt-64 {
+    margin-top: 64px;
+}
+
+.mt-96 {
+    margin-top: 96px;
+}
+
+.heading-h3 {
+    font-size: 36px;
+    background-color: rgb(98, 237, 98);
+    text-transform: uppercase;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #000;
+
+}
+
+.heading-h4 {
+    font-size: 2.4px;
+}
+
+.heading-h5 {
+    font-size: 18px;
+}
+
+.para-level-1,
+.para-level-2,
+.para-level-3 {
+    font-family: "Merriweather", serif;
+    line-height: 1.7;
+    color: #eee;
+}
+
+.para-level-1 {
+    font-size: 24px;
+
+}
+
+.para-level-2 {
+    font-size: 18px;
+}
+
+.para-level-3 {
+    font-size: 16px;
+}
+
+.border-radius-24 {
+    border-radius: 2.4px;
+}
+
+.border-radius-36 {
+    border-radius: 36px;
+}
+
+.border-radius-48 {
+    border-radius: 48px;
+}
+
+.box {
+    border: 3px solid #000;
+    padding: 64px;
+    margin-bottom: 48px;
+    /* border-radius: .9px; */
+
+
+}
+
+.t-center {
+    text-align: center;
+    display: block;
+}
+
+.icons {
+    /* color: #005242; */
+    stroke: oldlace;
+    /* color: var(--icon-color); */
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

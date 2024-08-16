@@ -1,0 +1,220 @@
+import React, { useContext, useEffect, useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import { ethers } from "ethers";
+// console.log(ethers);
+
+import { contractABI, contractAddress, network } from "../utlis/constants";
+
+export const TransactionContext = React.createContext();
+// console.log(contractABI);
+
+const { ethereum } = window;
+// console.log(new ethers.providers.Web3Provider(ethereum).getSigner());
+
+const getEthereumContract = () => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const transactionContract = new ethers.Contract(
+    contractAddress,
+    contractABI,
+    signer
+  );
+
+  return transactionContract;
+};
+
+// eslint-disable-next-line react/prop-types
+export const TransactionsProvider = ({ children }) => {
+  const [currentAccount, setCurrentAccount] = useState("");
+  const [currentChainId, setCurrrentId] = useState("");
+  const [weiBalance, setWeiBalance] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({ addressTo: "", amount: "" });
+  const [transactionCount, setTransactionCount] = useState(
+    localStorage.getItem("transactionCount")
+  );
+  const [statusNetwork, setStatusNetwork] = useState("0x1");
+  const [chainId, setChainId] = useState("0x1");
+
+  const handleChange = (e, name) => {
+    setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
+  };
+
+  const checkIfWalletIsConnect = async () => {
+    try {
+      if (!ethereum) return alert("Please install MetaMask");
+
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+      // console.log(accounts, "ThIS FROM ACCOUNT LOG");
+
+      if (accounts.length) {
+        setCurrentAccount(accounts[0]);
+      } else {
+        console.log("No Account Founded");
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error("No ethereum object.1");
+    }
+  };
+
+  const connectWallet = async () => {
+    try {
+      if (!ethereum) return alert("Please install MetaMask");
+
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      setCurrentAccount(accounts[0]);
+    } catch (error) {
+      console.log(error);
+      console.log(error);
+      throw new Error("No ethereum object.2");
+    }
+  };
+
+  const sendTransaction = async () => {
+    try {
+      if (!ethereum) return alert("Please install MetaMask");
+      const { addressTo, amount } = formData;
+      const transactionContract = getEthereumContract();
+      const parsedAmount = ethers.utils.parseEther(amount);
+
+      console.log(addressTo);
+      await ethereum.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            from: currentAccount,
+            to: addressTo,
+            gas: "0x5208", // 21000 gwi
+            value: parsedAmount._hex,
+          },
+        ],
+      });
+      const transactionHash = await transactionContract.addToBlockchain(
+        addressTo,
+        parsedAmount
+      );
+
+      setIsLoading(true);
+      // console.log(`Loading - ${transactionHash.hash}`);
+      await transactionHash.wait();
+      // console.log(`Success - ${transactionHash.hash}`);
+      setIsLoading(false);
+
+      const transactionsCount = await transactionContract.getTransactionCount();
+
+      setTransactionCount(transactionsCount.toNumber());
+
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      throw new Error("No ethereum object.");
+    }
+  };
+  const getBalances = async () => {
+    try {
+      // Fetch balance using the correct block parameter
+      const balanceWei = await window.ethereum.request({
+        method: "eth_getBalance",
+        params: [currentAccount, "latest"],
+      });
+
+      if (balanceWei.length) {
+        const bal = ethers.utils.formatEther(balanceWei);
+        setWeiBalance(bal);
+      }
+      // console.log(balanceWei.toString());
+      // Convert balance from Wei to Ether
+
+      // console.log(`Balance: ${balanceInEther} ETH`);
+    } catch (error) {
+      if (error.code === -32602) return;
+      console.error("Error fetching balance:", error.message || error);
+    }
+  };
+  getBalances();
+
+  const switchNetwork = async () => {
+    try {
+      // const binanceTestChainId = "0x61";
+
+      console.log(currentChainId, "THIS LINE FROM 142");
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: currentChainId }],
+      });
+
+      // window.location.reload();
+      console.log(currentChainId);
+    } catch (err) {
+      function getChainInfo(currentChainId) {
+        return network.find((chain) => chain.chainId === currentChainId);
+      }
+      // console.log(getChainInfo(currentChainId))
+
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [getChainInfo(currentChainId)],
+      });
+
+      // window.location.reload();
+      console.log(err);
+
+      throw new Error(
+        "This network is not available in your metamask, please add it"
+      );
+    }
+  };
+  switchNetwork();
+  const checkStatusNetwork = async () => {
+    const chainId = await window.ethereum.request({ method: "eth_chainId" });
+
+    setChainId(chainId);
+    console.log(chainId,'THIS IS CHAINID🎶🎶🎶🎶🎶🎶');
+  };
+
+  const getLogout = async () => {
+    try {
+      await ethereum.request({
+        method: "wallet_revokePermissions",
+        params: [
+          {
+            eth_accounts: currentAccount,
+          },
+        ],
+      });
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      throw new Error("you got logout from dappp");
+    }
+  };
+
+  useEffect(() => {
+    checkIfWalletIsConnect(), checkStatusNetwork();
+  }, []);
+  return (
+    <TransactionContext.Provider
+      value={{
+        connectWallet,
+        currentAccount,
+        setFormData,
+        handleChange,
+        sendTransaction,
+        formData,
+        getBalances,
+        getLogout,
+        setCurrrentId,
+        weiBalance,
+        statusNetwork,
+        chainId,
+        setStatusNetwork,
+      }}
+    >
+      {children}
+    </TransactionContext.Provider>
+  );
+};
