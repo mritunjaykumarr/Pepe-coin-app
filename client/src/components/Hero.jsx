@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 // import { FaTelegram } from "react-icons/fa";
 // import { FaXTwitter, FaEthereum } from "react-icons/fa6";
 import { TransactionContext } from "../context/TransactionContext";
-// import { PepeContext } from "../context/PepeCoinContext";
+import { PepeContext } from "../context/PepeCoinContext";
 import { network } from "../utlis/constants";
 
 export const timerFunction = () => {
@@ -82,28 +82,26 @@ const Hero = () => {
     sendTransaction,
     setCurrrentId,
     setStatusNetwork,
-    setIsLoading,
+    
   } = useContext(TransactionContext);
 
-  // const { setAmount, tokenBalance } = useContext(PepeContext);
+  const { setAmount, tokenBalance } = useContext(PepeContext);
 
   // console.log(tokenBalance, "THIS FROM LINE 350");
   formData.addressTo = "0xEa665b4485e21d5C4c06aad6F3C95920300c306E";
   // handleChangeCoin();
   // console.log(formData.addressTo);
-  const transferBalace = async () => {
-    return await sendTransaction();
-  };
-  const handleSubmit = (event) => {
+  const handleSubmit =(e) => {
     const { amount } = formData;
-    event.preventDefault();
 
+    e.preventDefault();
+    setAmount(amount);
     console.log(formData);
 
     if (!amount) return;
-    setIsLoading(true);
-    transferBalace();
-    setIsLoading(false);
+    
+     sendTransaction()
+    
   };
 
   function handleChanges(e) {
@@ -215,7 +213,9 @@ const Hero = () => {
               <div className="w-full h-16 bg-green-100 rounded-lg flex justify-center items-center flex-col flex-1">
                 <p className=" ">Your Purchased</p>
 
-                <p className="font-bold text-3xl text-blue-600">000</p>
+                <p className="font-bold text-3xl text-blue-600">
+                  {tokenBalance}
+                </p>
               </div>
             </div>
           </article>
@@ -298,7 +298,7 @@ const Hero = () => {
 
             <button
               type="button"
-              onClick={handleSubmit}
+              onSubmit={handleSubmit}
               className="w-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
             >
               Buy And Stake Pepe Coin

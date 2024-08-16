@@ -28,12 +28,12 @@ export const TransactionsProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [currentChainId, setCurrrentId] = useState("");
   const [weiBalance, setWeiBalance] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ addressTo: "", amount: "" });
   const [blockUrl, setBlockUrl] = useState("");
-  // const [transactionCount, setTransactionCount] = useState(
-  // localStorage.getItem("transactionCount")
-  // );
+  const [transactionCount, setTransactionCount] = useState(
+  localStorage.getItem("transactionCount")
+  );
   const [statusNetwork, setStatusNetwork] = useState("0x1");
   const [chainId, setChainId] = useState("0x1");
 
@@ -99,15 +99,15 @@ export const TransactionsProvider = ({ children }) => {
         parsedAmount
       );
 
-      setIsLoading(true);
+      // setIsLoading(true);
       console.log(`Loading - ${transactionHash.hash}`);
       await transactionHash.wait();
       console.log(`Success - ${transactionHash.hash}`);
-      setIsLoading(false);
+      // setIsLoading(false);
 
       const transfer = await transactionContract.getTransactionCount();
 
-      setTransactionCount(transactionsCount.toNumber());
+      setTransactionCount(transactionContract.toNumber());
 
       return transfer;
       // window.location.reload();
@@ -203,7 +203,7 @@ export const TransactionsProvider = ({ children }) => {
 
   useEffect(() => {
     checkIfWalletIsConnect(), checkStatusNetwork();
-  }, []);
+  }, [transactionCount]);
   return (
     <TransactionContext.Provider
       value={{
@@ -221,7 +221,7 @@ export const TransactionsProvider = ({ children }) => {
         chainId,
         setStatusNetwork,
         blockUrl,
-        setIsLoading,
+        
       }}
     >
       {children}
