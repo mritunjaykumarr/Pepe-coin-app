@@ -22,6 +22,7 @@ const Navbar = () => {
     weiBalance,
     statusNetwork,
     chainId,
+    blockUrl,
   } = useContext(TransactionContext);
 
   console.log(statusNetwork, "THIS FROM LINE 26");
@@ -116,7 +117,7 @@ const Navbar = () => {
 
   const handleChainChangeClick = (event) => {
     const userId = event.currentTarget.dataset.userId;
-    console.log(userId,'THIS FORM 😊😊😊😊😊');
+    console.log(userId, "THIS FORM 😊😊😊😊😊");
     setCurrrentId(userId);
 
     closeSwitch();
@@ -274,7 +275,9 @@ const Navbar = () => {
                     className="flex items-center justify-between w-full my-2 mb-3"
                     id="coin-status"
                   >
-                    <span className="para-level-3">View more on explore</span>
+                    <a className="para-level-3 cursor-pointer" href={blockUrl}>
+                      View more on explore
+                    </a>
                     <span>
                       <ion-icon name="arrow-redo-outline"></ion-icon>
                     </span>
@@ -307,7 +310,11 @@ const Navbar = () => {
                 className={button.className}
               >
                 <p className="flex items-center">
-                  <img src={`${button.img}`} alt="" className="w-6 h-6" />
+                  <img
+                    src={`../src/assets/img/${button.img}.svg`}
+                    alt=""
+                    className="w-6 h-6"
+                  />
                   <span className="px-2"> {button.label}</span>
                   <span className="text-green-600">
                     {chainId === button.userId && chainId === statusNetwork

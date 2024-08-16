@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { ExchangePepeCoinProvider } from "./context/PepeCoinContext.jsx";
+// import { ExchangePepeCoinProvider } from "./context/PepeCoinContext.jsx";
 import { TransactionsProvider } from "./context/TransactionContext.jsx";
 
 import App from "./App.jsx";
@@ -12,10 +12,10 @@ import "./style/query.css";
 
 createRoot(document.getElementById("root")).render(
   <TransactionsProvider>
-    <ExchangePepeCoinProvider >
-      <StrictMode>
-        <App />
-      </StrictMode>
-    </ExchangePepeCoinProvider>
+    {/* <ExchangePepeCoinProvider > */}
+    <StrictMode>
+      <App />
+    </StrictMode>
+    {/* </ExchangePepeCoinProvider> */}
   </TransactionsProvider>
 );

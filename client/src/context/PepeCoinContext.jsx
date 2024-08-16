@@ -1,88 +1,88 @@
-import { ethers } from "ethers";
-import { contractABI, contractAddress } from "../utlis/constant";
-import React, { useState, useEffect } from "react";
-import { timerFunction } from "../components/Hero";
+// import { ethers } from "ethers";
+// import { contractABI, contractAddress } from "../utlis/constant";
+// import React, { useState, useEffect } from "react";
+// import { timerFunction } from "../components/Hero";
 
-export const PepeContext = React.createContext();
+// export const PepeContext = React.createContext();
 
-const getContractPepe = () => {
-  // Connect to the Ethereum provider
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
+// const getContractPepe = () => {
+//   // Connect to the Ethereum provider
+//   const provider = new ethers.providers.Web3Provider(window.ethereum);
+//   const signer = provider.getSigner();
 
-  // Instantiate the contract
-  return new ethers.Contract(contractAddress, contractABI, signer);
-};
+//   // Instantiate the contract
+//   return new ethers.Contract(contractAddress, contractABI, signer);
+// };
 
-export const ExchangePepeCoinProvider = ({ children }) => {
-  const [intialAmount, setAmount] = useState(""); // Initialize as an empty string
-  const [exchange, setExchange] = useState(null);
-  const [tokenBalance, setTokenBalance] = useState(null);
+// export const ExchangePepeCoinProvider = ({ children }) => {
+//   const [intialAmount, setAmount] = useState(""); // Initialize as an empty string
+//   const [exchange, setExchange] = useState(null);
+//   const [tokenBalance, setTokenBalance] = useState(null);
 
-  // Function to handle ETH for PepeCoin exchange
-  const exchangeEthForPepe = async () => {
-    try {
-      const contract = getContractPepe();
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
+//   // Function to handle ETH for PepeCoin exchange
+//   const exchangeEthForPepe = async () => {
+//     try {
+//       const contract = getContractPepe();
+//       const accounts = await window.ethereum.request({
+//         method: "eth_requestAccounts",
+//       });
 
-      const ethAmount = ethers.utils.parseEther(intialAmount); // Ensure `intialAmount` is a string representing ETH
+//       const ethAmount = ethers.utils.parseEther(intialAmount); // Ensure `intialAmount` is a string representing ETH
 
-      // Call the smart contract function to exchange ETH for PEPE
-      const tx = await contract.exchangeEthForPepe({ value: ethAmount });
+//       // Call the smart contract function to exchange ETH for PEPE
+//       const tx = await contract.exchangeEthForPepe({ value: ethAmount });
 
-      // Wait for the transaction to be mined
-      await tx.wait();
+//       // Wait for the transaction to be mined
+//       await tx.wait();
 
-      // Update state or UI as needed
-      setExchange(`Successfully exchanged ETH for PEPE`);
-    } catch (err) {
-      console.error("Failed to exchange ETH for PEPE:", err);
-      throw new Error("Failed to exchange ETH for PEPE");
-    }
-  };
+//       // Update state or UI as needed
+//       setExchange(`Successfully exchanged ETH for PEPE`);
+//     } catch (err) {
+//       console.error("Failed to exchange ETH for PEPE:", err);
+//       throw new Error("Failed to exchange ETH for PEPE");
+//     }
+//   };
 
-  const fetchTokenBalance = async () => {
-    try {
-      const contract = getContractPepe();
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      const account = accounts[0]; // Use the current account
+//   const fetchTokenBalance = async () => {
+//     try {
+//       const contract = getContractPepe();
+//       const accounts = await window.ethereum.request({
+//         method: "eth_requestAccounts",
+//       });
+//       const account = accounts[0]; // Use the current account
 
       
-        // Fetch the token balance
-        const balance = await contract.balanceOf(account);
-        console.log("Raw balance:", balance.toString());
+//         // Fetch the token balance
+//         const balance = await contract.balanceOf(account);
+//         console.log("Raw balance:", balance.toString());
 
-        // Convert balance from smallest unit to human-readable format
-        const balanceInUnits = ethers.utils.formatUnits(balance, 18); // Assuming 18 decimals
-        console.log("Token Balance:", balanceInUnits);
+//         // Convert balance from smallest unit to human-readable format
+//         const balanceInUnits = ethers.utils.formatUnits(balance, 18); // Assuming 18 decimals
+//         console.log("Token Balance:", balanceInUnits);
 
-        // Update state
+//         // Update state
 
-        setTokenBalance(balanceInUnits);
+//         setTokenBalance(balanceInUnits);
       
-    } catch (err) {
-      console.error("Failed to fetch token balance:", err);
-    }
-  };
+//     } catch (err) {
+//       console.error("Failed to fetch token balance:", err);
+//     }
+//   };
 
-  useEffect(() => {
-    fetchTokenBalance();
-    timerFunction();
-    // Fetch balance when component mounts or updates
-  }, []);
+//   useEffect(() => {
+//     fetchTokenBalance();
+//     timerFunction();
+//     // Fetch balance when component mounts or updates
+//   }, []);
 
-  return (
-    <PepeContext.Provider
-      value={{ setAmount, exchange, tokenBalance, exchangeEthForPepe }}
-    >
-      {children}
-    </PepeContext.Provider>
-  );
-};
+//   return (
+//     <PepeContext.Provider
+//       value={{ setAmount, exchange, tokenBalance, exchangeEthForPepe }}
+//     >
+//       {children}
+//     </PepeContext.Provider>
+//   );
+// };
 
 // import { ethers } from "ethers";
 // import { contractABI, contractAddress } from "../utlis/constant";

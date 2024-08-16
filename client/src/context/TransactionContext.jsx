@@ -30,9 +30,10 @@ export const TransactionsProvider = ({ children }) => {
   const [weiBalance, setWeiBalance] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ addressTo: "", amount: "" });
-  const [transactionCount, setTransactionCount] = useState(
-    localStorage.getItem("transactionCount")
-  );
+  const [blockUrl, setBlockUrl] = useState("");
+  // const [transactionCount, setTransactionCount] = useState(
+  // localStorage.getItem("transactionCount")
+  // );
   const [statusNetwork, setStatusNetwork] = useState("0x1");
   const [chainId, setChainId] = useState("0x1");
 
@@ -42,7 +43,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const checkIfWalletIsConnect = async () => {
     try {
-      if (!ethereum) return alert("Please install MetaMask");
+      // if (!ethereum) return alert("Please install MetaMask");
 
       const accounts = await ethereum.request({ method: "eth_accounts" });
       // console.log(accounts, "ThIS FROM ACCOUNT LOG");
@@ -60,7 +61,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const connectWallet = async () => {
     try {
-      if (!ethereum) return alert("Please install MetaMask");
+      // if (!ethereum) return alert("Please install MetaMask");
 
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
@@ -76,7 +77,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const sendTransaction = async () => {
     try {
-      if (!ethereum) return alert("Please install MetaMask");
+      // if (!ethereum) return alert("Please install MetaMask");
       const { addressTo, amount } = formData;
       const transactionContract = getEthereumContract();
       const parsedAmount = ethers.utils.parseEther(amount);
@@ -99,16 +100,17 @@ export const TransactionsProvider = ({ children }) => {
       );
 
       setIsLoading(true);
-      // console.log(`Loading - ${transactionHash.hash}`);
+      console.log(`Loading - ${transactionHash.hash}`);
       await transactionHash.wait();
-      // console.log(`Success - ${transactionHash.hash}`);
+      console.log(`Success - ${transactionHash.hash}`);
       setIsLoading(false);
 
-      const transactionsCount = await transactionContract.getTransactionCount();
+      const transfer = await transactionContract.getTransactionCount();
 
       setTransactionCount(transactionsCount.toNumber());
 
-      window.location.reload();
+      return transfer;
+      // window.location.reload();
     } catch (error) {
       console.log(error);
       throw new Error("No ethereum object.");
@@ -147,7 +149,7 @@ export const TransactionsProvider = ({ children }) => {
         params: [{ chainId: currentChainId }],
       });
 
-      // window.location.reload();
+      window.location.reload();
       console.log(currentChainId);
     } catch (err) {
       function getChainInfo(currentChainId) {
@@ -160,7 +162,7 @@ export const TransactionsProvider = ({ children }) => {
         params: [getChainInfo(currentChainId)],
       });
 
-      // window.location.reload();
+      window.location.reload();
       console.log(err);
 
       throw new Error(
@@ -173,7 +175,13 @@ export const TransactionsProvider = ({ children }) => {
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
 
     setChainId(chainId);
-    console.log(chainId,'THIS IS CHAINID🎶🎶🎶🎶🎶🎶');
+    console.log(chainId);
+    network.map((url) => {
+      if (chainId === url.chainId)
+        console.log(url.blockExplorerUrls, "THIS FROM LINE 180");
+      setBlockUrl(url.blockExplorerUrls[0]);
+    });
+    console.log(chainId, "THIS IS CHAINID🎶🎶🎶🎶🎶🎶");
   };
 
   const getLogout = async () => {
@@ -212,6 +220,8 @@ export const TransactionsProvider = ({ children }) => {
         statusNetwork,
         chainId,
         setStatusNetwork,
+        blockUrl,
+        setIsLoading,
       }}
     >
       {children}
