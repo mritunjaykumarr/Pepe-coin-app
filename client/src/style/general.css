@@ -21,7 +21,7 @@ html {
     /* 10px / 16px = 0.625 = 62.5% */
     /* Percentage of user's browser font-size setting */
     /* font-size: 62.5%; */
-    overflow-x: hidden;
+    overflow-x: hidden !important;
     font-family: "Poppins", sans-serif;
     /* Does NOT work on Safari */
     /* scroll-behavior: smooth; */
@@ -35,7 +35,7 @@ body {
 
 
     /* Only works if there is nothing absolutely positioned in relation to body */
-    /* overflow-x: hidden; */
+    overflow-x: hidden;
 }
 
 a {
@@ -48,10 +48,10 @@ a {
     display: inline-block;
 
 
-    font-size: 2px;
+    font-size: 29px;
     font-weight: 600;
     padding: 12px 42px;
-    border-radius: .9px;
+    border-radius: 9px;
     /* Only necessary for .btn */
     border: none;
     cursor: pointer;
@@ -70,8 +70,23 @@ a {
     color: #b3dbd4;
 } */
 
+.btn:hover {
+    color: white;
+    /* background: transparent; */
+    transition: all 0.2s;
+    right: 0;
+    z-index: -1;
+    transition: all 0.2s;
+
+    /* neon hover */
+    border-color: #C22D2D;
+    box-shadow: 0 0 5px #C22D2D, 0 0 10px #C22D2D, 0 0 20px #C22D2D;
+    background: linear-gradient(90deg, rgba(252, 211, 77, 1) 0%, rgba(243, 129, 129, 1) 50%, rgba(244, 114, 182, 1) 100%);
+
+}
+
 .submit-form {
-    padding: 12px 19px;
+    padding: 12px 180px;
     margin-top: 32px;
 }
 
@@ -133,6 +148,9 @@ a {
 
 .button-50:hover {
     text-decoration: none;
+    border-color: #C22D2D;
+    box-shadow: 0 0 3px #C22D2D, 0 0 8px #C22D2D, 0 0 15px #C22D2D;
+    background: linear-gradient(90deg, rgba(252, 211, 77, 1) 0%, rgba(243, 129, 129, 1) 50%, rgba(244, 114, 182, 1) 100%);
 }
 
 .button-50:active {
@@ -154,6 +172,7 @@ a {
 .send-me {
     padding: 12px 64px;
     background-color: purple;
+    margin-top: 24px;
 }
 
 .grid {
@@ -185,7 +204,7 @@ a {
 }
 
 .container {
-    max-width: 1300px;
+    max-width: 1200px;
     padding: 0 32px;
     margin: 0 auto;
 }
@@ -235,7 +254,7 @@ a {
 }
 
 .mb-24 {
-    margin-bottom: 2.4px;
+    margin-bottom: 24px;
 }
 
 .mt-12 {
@@ -274,7 +293,7 @@ a {
 }
 
 .heading-h4 {
-    font-size: 2.4px;
+    font-size: 24px;
 }
 
 .heading-h5 {
@@ -303,7 +322,7 @@ a {
 }
 
 .border-radius-24 {
-    border-radius: 2.4px;
+    border-radius: 24px;
 }
 
 .border-radius-36 {
@@ -338,4 +357,8 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+svg {
+    display: inline;
 }

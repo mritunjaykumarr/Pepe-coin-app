@@ -1,16 +1,25 @@
 import "./App.css";
-import { Navbar, Hero, Services, Transactions, Footer } from "./components";
+import {
+  Navbar,
+  Hero,
+  Services,
+  Transactions,
+  Footer,
+  Index,
+} from "./components/exportFile";
 const App = () => {
   return (
     <div className="min-h-screen">
-      <div>
+      <Index />
+
+      {/* <div>
         <Navbar />
         <Hero />
-      </div>
+      </div> */}
 
-      <Services />
+      {/* <Services />
       <Transactions />
-      <Footer />
+      <Footer /> */}
     </div>
   );
 };
