@@ -68,8 +68,8 @@ export const ExchangePepeCoinProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchTokenBalance();
-    timerFunction();
+    // fetchTokenBalance();
+    // timerFunction();
     // Fetch balance when component mounts or updates
   }, []);
 

@@ -28,6 +28,27 @@ export const RefersProvider = ({ children }) => {
   const [contract, setContract] = useState(null);
   const [account, setAccount] = useState("");
 
+  // Function to handle refer and earn
+  // refererAddress should its account token addresss
+  const referAndEarn = async (taskId, referrerAddress) => {
+    if (!contract) {
+      console.error("Contract not initialized");
+      return;
+    }
+
+    try {
+      // Call the referAndEarn method of the smart contract
+      const tx = await contract.referAndEarn(taskId, referrerAddress);
+      console.log(tx, "THIS FROM LINE 60🎈🎈🎈");
+
+      await tx.wait(); // Wait for the transaction to be mined
+      console.log("Transaction successful:", tx);
+    } catch (error) {
+      console.error("Error referring and earning:", error);
+    }
+  };
+  referAndEarn();
+
   useEffect(() => {
     const initContract = async () => {
       const contractInstance = getEthereumContract();
@@ -43,30 +64,9 @@ export const RefersProvider = ({ children }) => {
       }
     };
 
-    initContract();
-    fetchAccount();
+    // initContract();
+    // fetchAccount();
   }, []);
-
-  // Function to handle refer and earn
-  // refererAddress should its account token addresss
-  const referAndEarn = async (taskId, referrerAddress) => {
-    if (!contract) {
-      console.error("Contract not initialized");
-      return;
-    }
-
-    try {
-      // Call the referAndEarn method of the smart contract
-        const tx = await contract.referAndEarn(taskId, referrerAddress);
-        console.log(tx,'THIS FROM LINE 60🎈🎈🎈')
-
-      await tx.wait(); // Wait for the transaction to be mined
-      console.log("Transaction successful:", tx);
-    } catch (error) {
-      console.error("Error referring and earning:", error);
-    }
-  };
-referAndEarn()
 
   return (
     <ReferContext.Provider

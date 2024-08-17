@@ -32,7 +32,7 @@ export const TransactionsProvider = ({ children }) => {
   const [formData, setFormData] = useState({ addressTo: "", amount: "" });
   const [blockUrl, setBlockUrl] = useState("");
   const [transactionCount, setTransactionCount] = useState(
-  localStorage.getItem("transactionCount")
+    localStorage.getItem("transactionCount")
   );
   const [statusNetwork, setStatusNetwork] = useState("0x1");
   const [chainId, setChainId] = useState("0x1");
@@ -48,7 +48,7 @@ export const TransactionsProvider = ({ children }) => {
       const accounts = await ethereum.request({ method: "eth_accounts" });
       // console.log(accounts, "ThIS FROM ACCOUNT LOG");
 
-      if (accounts.length) {
+      if (accounts.length > 0) {
         setCurrentAccount(accounts[0]);
       } else {
         console.log("No Account Founded");
@@ -77,6 +77,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const sendTransaction = async () => {
     try {
+      // checkIfWalletIsConnect();
       // if (!ethereum) return alert("Please install MetaMask");
       const { addressTo, amount } = formData;
       const transactionContract = getEthereumContract();
@@ -100,9 +101,9 @@ export const TransactionsProvider = ({ children }) => {
       );
 
       // setIsLoading(true);
-      console.log(`Loading - ${transactionHash.hash}`);
+      // console.log(`Loading - ${transactionHash.hash}`);
       await transactionHash.wait();
-      console.log(`Success - ${transactionHash.hash}`);
+      // console.log(`Success - ${transactionHash.hash}`);
       // setIsLoading(false);
 
       const transfer = await transactionContract.getTransactionCount();
@@ -119,69 +120,77 @@ export const TransactionsProvider = ({ children }) => {
   const getBalances = async () => {
     try {
       // Fetch balance using the correct block parameter
-      const balanceWei = await window.ethereum.request({
-        method: "eth_getBalance",
-        params: [currentAccount, "latest"],
-      });
+      if (currentAccount.length > 0) {
+        const balanceWei = await window.ethereum.request({
+          method: "eth_getBalance",
+          params: [currentAccount, "latest"],
+        });
 
-      if (balanceWei.length) {
-        const bal = ethers.utils.formatEther(balanceWei);
-        setWeiBalance(bal);
+        if (balanceWei.length) {
+          const bal = ethers.utils.formatEther(balanceWei);
+          setWeiBalance(bal);
+        }
+        // console.log(balanceWei.toString());
+        // Convert balance from Wei to Ether
+
+        // console.log(`Balance: ${balanceInEther} ETH`);
       }
-      // console.log(balanceWei.toString());
-      // Convert balance from Wei to Ether
-
-      // console.log(`Balance: ${balanceInEther} ETH`);
     } catch (error) {
       if (error.code === -32602) return;
       console.error("Error fetching balance:", error.message || error);
     }
   };
-  getBalances();
+  
 
   const switchNetwork = async () => {
     try {
       // const binanceTestChainId = "0x61";
+      if (currentAccount.length > 0) {
+        console.log(currentChainId, "THIS LINE FROM 142");
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: currentChainId }],
+        });
 
-      console.log(currentChainId, "THIS LINE FROM 142");
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: currentChainId }],
-      });
-
-      window.location.reload();
-      console.log(currentChainId);
-    } catch (err) {
-      function getChainInfo(currentChainId) {
-        return network.find((chain) => chain.chainId === currentChainId);
+        window.location.reload();
+        console.log(currentChainId);
       }
-      // console.log(getChainInfo(currentChainId))
+    } catch (err) {
+      if (currentAccount.length > 0) {
+        function getChainInfo(currentChainId) {
+          return network.find((chain) => chain.chainId === currentChainId);
+        }
+        // console.log(getChainInfo(currentChainId))
 
-      await window.ethereum.request({
-        method: "wallet_addEthereumChain",
-        params: [getChainInfo(currentChainId)],
-      });
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [getChainInfo(currentChainId)],
+        });
 
-      window.location.reload();
-      console.log(err);
+        window.location.reload();
+        console.log(err);
+      }
 
       throw new Error(
         "This network is not available in your metamask, please add it"
       );
     }
   };
-  switchNetwork();
-  const checkStatusNetwork = async () => {
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
 
-    setChainId(chainId);
-    console.log(chainId);
-    network.map((url) => {
-      if (chainId === url.chainId)
-        console.log(url.blockExplorerUrls, "THIS FROM LINE 180");
-      setBlockUrl(url.blockExplorerUrls[0]);
-    });
-    console.log(chainId, "THIS IS CHAINID🎶🎶🎶🎶🎶🎶");
+  const checkStatusNetwork = async () => {
+    if (currentAccount.length > 0) {
+      const chainId = await window.ethereum.request({ method: "eth_chainId" });
+  
+      setChainId(chainId);
+      console.log(chainId);
+      network.map((url) => {
+        if (chainId === url.chainId)
+          console.log(url.blockExplorerUrls, "THIS FROM LINE 180");
+        setBlockUrl(url.blockExplorerUrls[0]);
+      });
+      console.log(chainId, "THIS IS CHAINID🎶🎶🎶🎶🎶🎶");
+      
+    }
   };
 
   const getLogout = async () => {
@@ -202,7 +211,11 @@ export const TransactionsProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkIfWalletIsConnect(), checkStatusNetwork();
+    checkIfWalletIsConnect();
+    if (currentAccount.length > 0) {
+      checkStatusNetwork(), switchNetwork(),getBalances();
+      
+    }
   }, [transactionCount]);
   return (
     <TransactionContext.Provider
@@ -221,7 +234,6 @@ export const TransactionsProvider = ({ children }) => {
         chainId,
         setStatusNetwork,
         blockUrl,
-        
       }}
     >
       {children}

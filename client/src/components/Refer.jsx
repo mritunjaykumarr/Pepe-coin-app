@@ -4,14 +4,8 @@ import refer from "../image/refers/refer.png";
 import refersAnimation from "../image/refers/pepe-refer-animation.mp4";
 import reward from "../image/refers/pepe-get-rewards.mp4";
 import { ReferContext } from "../context/RefersContext";
-import { useContext } from "react";
-
-
-
-
-
-
-
+import getOrCreateToken from "../utlis/tokenGenerator";
+import { useContext, useEffect, useState } from "react";
 
 // document
 //   .getElementById("copyLinkButton")
@@ -83,15 +77,23 @@ import { useContext } from "react";
 // };
 
 const Refer = () => {
+  const [token, setToken] = useState("");
   const { contract, account, referAndEarn } = useContext(ReferContext);
 
+  useEffect(() => {
+    // Initialize the token from the utility function
+    const initialToken = getOrCreateToken();
+    setToken(initialToken); // Update the state with the token
+  }, []);
   console.log(account, contract, "THIS IS FROM LINE 80 :):):):):)");
+  console.log(token, "this is token");
+  const referLink = `https://pepelayer2.com/referral/${token}`;
 
-  // we need two parameter 
+  // we need two parameter
   // taskid and refereraddress
-//   const referId = async () => {
-//   await referAndEarn(2,)
-// }
+  //   const referId = async () => {
+  //   await referAndEarn(2,)
+  // }
 
   return (
     <div className="refer-body">
@@ -144,12 +146,7 @@ const Refer = () => {
       <section id="referralInfo">
         <div className="infoBox">
           <h3>Your Referral Link</h3>
-          <input
-            type="text"
-            id="referralLink"
-            defaultValue="https://pepelayer2.com/referral/your-code"
-            readOnly
-          />
+          <input type="text" id="referralLink" value={referLink} readOnly  className="cursor-pointer"/>
           <button id="copyLinkButton">Copy Link</button>
         </div>
         <div className="infoBox">
