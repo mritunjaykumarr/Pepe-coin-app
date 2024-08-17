@@ -1,0 +1,327 @@
+@import url('https://fonts.googleapis.com/css2?family=Margarine&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+
+.refer-body{
+    /* font-family: Arial, sans-serif; */
+    margin: 0;
+    padding: 0;
+    background: #f0f0f0;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    /* font-weight: <weight>;
+    font-style: normal; */
+}
+
+/* header {
+    background-color: #4caf50;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+h1 {
+    margin: 10px;
+} */
+
+/* DAILY CHANLLANGES */
+
+/* styles.css */
+
+
+/* .container {
+    /* width: 1366px;
+    height: 266px; */
+    /* background: white; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); */
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}  */
+
+.bubble {
+    position: absolute;
+    bottom: -50px;
+    border-radius: 50%;
+    animation: rise 10s infinite ease-in;
+}
+
+.bubble1 {
+    left: 10%;
+    animation-duration: 8s;
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 183, 255, 0.3);
+}
+
+.bubble2 {
+    left: 20%;
+    animation-duration: 12s;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 99, 72, 0.3);
+}
+
+.bubble3 {
+    left: 30%;
+    animation-duration: 10s;
+    width: 80px;
+    height: 80px;
+    background: rgba(72, 255, 99, 0.3);
+    border-radius: 10%;
+}
+
+.bubble4 {
+    left: 40%;
+    animation-duration: 9s;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 99, 0.3);
+    border-radius: 30%;
+}
+
+.bubble5 {
+    left: 50%;
+    animation-duration: 14s;
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 99, 255, 0.3);
+}
+
+.bubble6 {
+    left: 60%;
+    animation-duration: 11s;
+    width: 70px;
+    height: 70px;
+    background: rgba(99, 255, 255, 0.3);
+}
+
+.bubble7 {
+    left: 70%;
+    animation-duration: 13s;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 165, 0, 0.3);
+    border-radius: 25%;
+}
+
+.bubble8 {
+    left: 80%;
+    animation-duration: 10s;
+    width: 50px;
+    height: 50px;
+    background: rgba(128, 0, 128, 0.3);
+}
+
+.bubble9 {
+    left: 90%;
+    animation-duration: 12s;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 255, 183, 0.3);
+    border-radius: 20%;
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-400px);
+    }
+}
+
+.challenge-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.challenge-box h2 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.challenge-box p {
+    font-size: 1.4em;
+    color: #666;
+    margin: 5px 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#timer {
+    font-size: 1.2em;
+    color: #ff6347;
+    margin-top: 20px;
+}
+
+.challenge-box button {
+    padding: 15px 40px;
+    font-size: 1.4em;
+    cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    background-color: #007bff;
+    color: white;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.challenge-box button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.challenge-box button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.challenge-box button:disabled:hover {
+    transform: none;
+}
+
+/* INTRO SECTION */
+
+
+#intro {
+    background: url('images/pepe-bg.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 64px 20px 48px 20px;
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.intro-image {
+    width: 350px;
+    margin-right: 20px;
+}
+
+.intro-text {
+    max-width: 500px;
+}
+
+.intro-text h2 {
+    font-size: 36px;
+}
+
+.intro-text p {
+    font-size: 18px;
+    margin: 20px 0;
+}
+
+#referralInfo {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    /* background: #fff; */
+    margin: 20px 0;
+}
+
+.infoBox {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    width: 30%;
+    color: #333;
+}
+
+.intro-content button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px 9px;
+}
+
+.intro-content button:hover {
+    background-color: #45a049;
+}
+
+input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* how it work */
+
+#howItWorks {
+    padding: 40px 20px;
+    background: #fff;
+    text-align: center;
+}
+
+#howItWorks h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.step {
+    width: 30%;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+
+}
+
+.step-image {
+    width: 300px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    border: 2px solid #99999973;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+
+    /* .step-images {
+    width: 250px;
+    margin-bottom: 10px;
+} */
+}
+
+.step p {
+    font-size: 16px;
+}

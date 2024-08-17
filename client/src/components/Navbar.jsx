@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 /* eslint-disable no-unused-vars */
 // import React from "react";
 import { TransactionContext } from "../context/TransactionContext";
@@ -138,15 +139,20 @@ const Navbar = () => {
   return (
     <nav className="header">
       <div className="">
-        <a href="#home" className="logo-link ">
+        <Link to="/" className="logo-link">
+          <img src={logo} alt="logo" className="logo" />{" "}
+          <span>PEPE LAYER 2</span>
+        </Link>
+        {/* <a href="/home" className="logo-link ">
           <img src={logo} alt="logo" className="logo " /> Pepe Layer 2
-        </a>
+        </a> */}
       </div>
       <ul className="main-nav-list">
         <li>
-          <a href="#home" className="main-nav-link active">
+          
+          <Link to="/" className="main-nav-link active">
             Hopenomics{" "}
-          </a>
+          </Link>
         </li>
         <li>
           <a href="#roadmap" className="main-nav-link">

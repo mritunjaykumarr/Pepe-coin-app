@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../image/logo.png";
 import about from "../image/about.jpg";
 import form from "../image/form.png";
@@ -26,10 +27,10 @@ const Index = () => {
   return (
     <div>
       <header className="header">
-        <a href="#" className="logo-link">
+        <Link to="/" className="logo-link">
           <img src={logo} alt="logo" className="logo" />{" "}
           <span>PEPE LAYER 2</span>
-        </a>
+        </Link>
         <nav className="main-nav">
           <ul className="main-nav-list">
             <li>
@@ -44,17 +45,15 @@ const Index = () => {
             </li>
             {/* <li><a href="#" class="main-nav-link">How to Buy</a></li> */}
             <li>
-              <a
-                href="/Referral/referral.html"
-                className="main-nav-link nav-cta"
-              >
+              <Link to="/refer" className="main-nav-link nav-cta">
                 Join AirDrop
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="main-nav-link nav-cta">
+              <Link to="/pepe" className="main-nav-link nav-cta">
                 Buy Now
-              </a>
+              </Link>
+              {/* <a href="#" className="main-nav-link nav-cta"></a> */}
             </li>
           </ul>
         </nav>

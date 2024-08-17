@@ -54,7 +54,7 @@ export const timerFunction = () => {
 };
 
 // Call the function to start the countdown
-timerFunction();
+// timerFunction();
 
 // timerFunction();
 const boxCommonProperty =
