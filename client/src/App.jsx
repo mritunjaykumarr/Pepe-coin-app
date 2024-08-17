@@ -12,11 +12,11 @@ import Services from "./components/Services.jsx";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const isPepePage = location.pathname === "/pepe"; // Check if current route is `/pepe`
+  const pepe = location.pathname === "/pepe"; // Check if current route is `/pepe`
 
   return (
     <div>
-      {isPepePage && (
+      {pepe && (
         <>
           <Navbar />
           <Hero />
@@ -52,7 +52,7 @@ const App = () => {
           path="/pepe"
           element={
             <Layout>
-              <isPepePage />
+              <pepe />
             </Layout>
           }
         />

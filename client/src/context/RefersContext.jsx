@@ -48,6 +48,7 @@ export const RefersProvider = ({ children }) => {
   }, []);
 
   // Function to handle refer and earn
+  // refererAddress should its account token addresss
   const referAndEarn = async (taskId, referrerAddress) => {
     if (!contract) {
       console.error("Contract not initialized");
@@ -65,6 +66,7 @@ export const RefersProvider = ({ children }) => {
       console.error("Error referring and earning:", error);
     }
   };
+referAndEarn()
 
   return (
     <ReferContext.Provider

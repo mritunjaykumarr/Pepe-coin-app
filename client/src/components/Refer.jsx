@@ -6,6 +6,13 @@ import reward from "../image/refers/pepe-get-rewards.mp4";
 import { ReferContext } from "../context/RefersContext";
 import { useContext } from "react";
 
+
+
+
+
+
+
+
 // document
 //   .getElementById("copyLinkButton")
 //   .addEventListener("click", function () {
@@ -79,6 +86,12 @@ const Refer = () => {
   const { contract, account, referAndEarn } = useContext(ReferContext);
 
   console.log(account, contract, "THIS IS FROM LINE 80 :):):):):)");
+
+  // we need two parameter 
+  // taskid and refereraddress
+//   const referId = async () => {
+//   await referAndEarn(2,)
+// }
 
   return (
     <div className="refer-body">
