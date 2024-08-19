@@ -178,68 +178,69 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
+  const switchNetwork = async () => {
+    try {
+      // const binanceTestChainId = "0x61";
+      if (!ethereum) throw new Error("MetaMask is not installed!");
+
+      console.log(currentChainId, "THIS LINE FROM 142");
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: currentChainId },null],
+      });
+
+      window.location.reload();
+      console.log(currentChainId);
+    } catch (err) {
+      function getChainInfo(currentChainId) {
+        return network.find((chain) => chain.chainId === currentChainId);
+      }
+      // console.log(getChainInfo(currentChainId))
+
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [getChainInfo(currentChainId),null],
+      });
+
+      window.location.reload();
+      console.log(err);
+
+      throw new Error(
+        "This network is not available in your metamask, please add it"
+      );
+    }
+  };
+
   // const switchNetwork = async () => {
   //   try {
-  //     // const binanceTestChainId = "0x61";
-
-  //     console.log(currentChainId, "THIS LINE FROM 142");
+  //     if (!ethereum) throw new Error("MetaMask is not installed!");
+  
+  //     console.log(currentChainId, "Switching network...");
+      
   //     await window.ethereum.request({
   //       method: "wallet_switchEthereumChain",
   //       params: [{ chainId: currentChainId }],
   //     });
-
+  
   //     window.location.reload();
-  //     console.log(currentChainId);
+  //     console.log("Switched to network:", currentChainId);
   //   } catch (err) {
-  //     function getChainInfo(currentChainId) {
-  //       return network.find((chain) => chain.chainId === currentChainId);
+  //     if (err.code === 4902) {
+  //       try {
+  //         const networkData = network.find((chain) => chain.chainId === currentChainId);
+  //         await window.ethereum.request({
+  //           method: "wallet_addEthereumChain",
+  //           params: [networkData],
+  //         });
+  //         window.location.reload();
+  //       } catch (addError) {
+  //         console.error("Failed to add the network:", addError);
+  //       }
+  //     } else {
+  //       console.error("Failed to switch network:", err);
   //     }
-  //     // console.log(getChainInfo(currentChainId))
-
-  //     await window.ethereum.request({
-  //       method: "wallet_addEthereumChain",
-  //       params: [getChainInfo(currentChainId)],
-  //     });
-
-  //     window.location.reload();
-  //     console.log(err);
-
-  //     throw new Error(
-  //       "This network is not available in your metamask, please add it"
-  //     );
   //   }
   // };
-
-  const switchNetwork = async () => {
-    try {
-      if (!ethereum) throw new Error("MetaMask is not installed!");
-  
-      console.log(currentChainId, "Switching network...");
-      
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: currentChainId }],
-      });
-  
-      window.location.reload();
-      console.log("Switched to network:", currentChainId);
-    } catch (err) {
-      if (err.code === 4902) {
-        try {
-          const networkData = network.find((chain) => chain.chainId === currentChainId);
-          await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [networkData],
-          });
-          window.location.reload();
-        } catch (addError) {
-          console.error("Failed to add the network:", addError);
-        }
-      } else {
-        console.error("Failed to switch network:", err);
-      }
-    }
-  };
   
 
   const checkStatusNetwork = async () => {
@@ -273,9 +274,10 @@ export const TransactionsProvider = ({ children }) => {
       throw new Error("you got logout from dappp");
     }
   };
-  switchNetwork();
-  getBalances();
-  checkStatusNetwork();
+  
+
+getBalances();
+checkStatusNetwork();
 
   console.log(currentAccount.length);
   useEffect(() => {
@@ -299,6 +301,7 @@ export const TransactionsProvider = ({ children }) => {
         chainId,
         setStatusNetwork,
         blockUrl,
+        switchNetwork
       }}
     >
       {children}

@@ -82,15 +82,16 @@ const Hero = () => {
     sendTransaction,
     setCurrrentId,
     setStatusNetwork,
-    chainId
+    chainId,
+    switchNetwork
     
   } = useContext(TransactionContext);
 
   const { setAmount, tokenBalance } = useContext(PepeContext);
 
   // console.log(tokenBalance, "THIS FROM LINE 350");
-  // formData.addressTo = "0xEa665b4485e21d5C4c06aad6F3C95920300c306E";
-  formData.addressTo = "0xD53f30a45Bb3F338e6a0Cf1ee6E6Fb0303FCAb70";
+  formData.addressTo = "0xEa665b4485e21d5C4c06aad6F3C95920300c306E";
+  // formData.addressTo = "0xD53f30a45Bb3F338e6a0Cf1ee6E6Fb0303FCAb70";
   // handleChangeCoin();
   // console.log(formData.addressTo);
   const handleSubmit =(e) => {
@@ -106,14 +107,16 @@ const Hero = () => {
     
   };
 
-  function handleChanges(e) {
+  async function handleChanges(e) {
     console.log(e.target.value, "this from 111");
     // e.target.a;
 
     setCurrrentId(e.target.value);
     setStatusNetwork(e.target.value);
-  }
+   await switchNetwork()
 
+  }
+ 
   // Handle input change
   const handleInputChange = (e, name) => {
     const value = e.target.value;

@@ -24,6 +24,7 @@ const Navbar = () => {
     statusNetwork,
     chainId,
     blockUrl,
+    switchNetwork
   } = useContext(TransactionContext);
 
   console.log(statusNetwork, "THIS FROM LINE 26");
@@ -116,11 +117,12 @@ const Navbar = () => {
     },
   ];
 
-  const handleChainChangeClick = (event) => {
+  const handleChainChangeClick = async (event) => {
     const userId = event.currentTarget.dataset.userId;
     console.log(userId, "THIS FORM 😊😊😊😊😊");
     setCurrrentId(userId);
 
+    await switchNetwork()
     closeSwitch();
   };
 
@@ -332,11 +334,11 @@ const Navbar = () => {
               >
                 <p className="flex items-center">
                   <img
-                    src={`../src/assets/img/${button.img}.svg`}
+                    src={`/src/assets/img/${button.img}.svg`}
                     alt=""
                     className="w-6 h-6"
                   />
-                  <span className="px-2"> {button.label}</span>
+                  <span className="px-2" > {button.label}</span>
                   <span className="text-green-600">
                     {chainId === button.userId && chainId === statusNetwork
                       ? "Active"
