@@ -1,71 +1,3 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from "react-router-dom";
-import "./App.css";
-import { Index, Refer } from "./components/exportFile";
-import Navbar from "./components/Navbar.jsx";
-import Hero from "./components/Hero.jsx";
-import Services from "./components/Services.jsx";
-
-// Layout component for pages with Navbar, Hero, and Services
-const FullLayout = ({ children }) => {
-  return (
-    <div>
-      <Navbar />
-      <Hero />
-      <Services />
-      {children}
-    </div>
-  );
-};
-
-// Simple layout for other pages
-const SimpleLayout = ({ children }) => {
-  return <div>{children}</div>;
-};
-
-const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <SimpleLayout>
-              <Index />
-            </SimpleLayout>
-          }
-        />
-        <Route
-          path="/refer"
-          element={
-            <SimpleLayout>
-              <Refer />
-            </SimpleLayout>
-          }
-        />
-        <Route
-          path="/pepe"
-          element={
-            <FullLayout>
-             
-            </FullLayout>
-          }
-        />
-       
-          
-      
-      </Routes>
-    </Router>
-  );
-};
-
-export default App;
-
-
-
 // import {
 //   BrowserRouter as Router,
 //   Route,
@@ -120,7 +52,7 @@ export default App;
 //           path="/pepe"
 //           element={
 //             <Layout>
-//               <pepe />
+             
 //             </Layout>
 //           }
 //         />
@@ -131,75 +63,67 @@ export default App;
 
 // export default App;
 
-// // import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// // import "./App.css";
-// // import { Index, Refer } from "./components/exportFile";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./App.css";
+// import { Index, Refer } from "./components/exportFile";
+import Index from "./components/Index.jsx"
+import Refer from "./components/Refer.jsx"
+import  Navbar  from "./components/Navbar.jsx";
+import Hero  from "./components/Hero.jsx";
 
-// // import { Navbar } from "./components/Navbar.jsx";
-// // import { Hero } from "./components/Hero.jsx";
+const App = () => {
+  return (
+    <Router>
+      {/* <Navbar />
+      <Hero /> */}
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/refer" element={<Refer />} />
+        <Route path="/pepe" element= {<><Navbar /><Hero /></>} />
+      </Routes>
+      {/* <Services />
+      <Transactions />
+      <Footer /> */}
+    </Router>
+  );
+};
 
-// // const PepePage = () => {
-// //   return (
-// //     <div>
-// //       <Navbar />
-// //       <Hero />
-// //     </div>
-// //   );
-// // };
+export default App;
 
-// // const App = () => {
-// //   return (
-// //     <Router>
-// //       {/* <Navbar />
-// //       <Hero /> */}
-// //       <Routes>
-// //         <Route path="/" element={<Index />} />
-// //         <Route path="/refer" element={<Refer />} />
-// //         <Route path="/pepe" element={<PepePage />} />
-// //       </Routes>
-// //       {/* <Services />
-// //       <Transactions />
-// //       <Footer /> */}
-// //     </Router>
-// //   );
-// // };
+// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// import "./App.css";
+// import {
+//   Navbar,
+//   Hero,
+//   Services,
+//   Transactions,
+//   Footer,
+//   Index,
+//   Refer,
+// } from "./components/exportFile";
+// import {Index} from "./components/Index"
+// const App = () => {
+//   return (
+//     // <div className="min-h-screen">
+//     //   {/* <Index /> */}
+//     //   <Refer />
+//     //   {/* <div>
+//     //     <Navbar />
+//     //     <Hero />
+//     //   </div> */}
 
-// // export default App;
+//     //   {/* <Services />
+//     //   <Transactions />
+//     //   <Footer /> */}
+//     // </div>
 
-// // import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// // import "./App.css";
-// // import {
-// //   Navbar,
-// //   Hero,
-// //   Services,
-// //   Transactions,
-// //   Footer,
-// //   Index,
-// //   Refer,
-// // } from "./components/exportFile";
-// // import {Index} from "./components/Index"
-// // const App = () => {
-// //   return (
-// //     // <div className="min-h-screen">
-// //     //   {/* <Index /> */}
-// //     //   <Refer />
-// //     //   {/* <div>
-// //     //     <Navbar />
-// //     //     <Hero />
-// //     //   </div> */}
+//     <Router>
+//       <Routes>
+//         <Route path="/" element={Index} />
+//         <Route path="/about" element={Refer} />
+//       </Routes>
+//     </Router>
+//   );
+// };
 
-// //     //   {/* <Services />
-// //     //   <Transactions />
-// //     //   <Footer /> */}
-// //     // </div>
-
-// //     <Router>
-// //       <Routes>
-// //         <Route path="/" element={Index} />
-// //         <Route path="/about" element={Refer} />
-// //       </Routes>
-// //     </Router>
-// //   );
-// // };
-
-// // export default App;
+// export default App;

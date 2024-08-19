@@ -55,12 +55,8 @@ export const TransactionsProvider = ({ children }) => {
       }
     } catch (error) {
       // console.log(error);
-      return (
-        <div>
-          <h1 className="text-red text-4xl">Please Install Metamas!</h1>
-        </div>
-      );
-      // throw new Error("Please Install Metamask! line 58");
+     
+      throw new Error("Please Install Metamask! line 58");
     }
   };
 
@@ -85,72 +81,50 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-  // const sendTransaction = async () => {
-  //   try {
-  //     // checkIfWalletIsConnect();
-  //     // if (!ethereum) return alert("Please install MetaMask");
-  //     const { addressTo, amount } = formData;
-  //     const transactionContract = getEthereumContract();
-  //     const parsedAmount = ethers.utils.parseEther(amount);
-
-  //     console.log(addressTo);
-  //     await ethereum.request({
-  //       method: "eth_sendTransaction",
-  //       params: [
-  //         {
-  //           from: currentAccount,
-  //           to: addressTo,
-  //           gas: "0x5208", // 21000 gwi
-  //           value: parsedAmount._hex,
-  //         },
-  //       ],
-  //     });
-  //     const transactionHash = await transactionContract.addToBlockchain(
-  //       addressTo,
-  //       parsedAmount
-  //     );
-
-  //     // setIsLoading(true);
-  //     // console.log(`Loading - ${transactionHash.hash}`);
-  //     await transactionHash.wait();
-  //     // console.log(`Success - ${transactionHash.hash}`);
-  //     // setIsLoading(false);
-
-  //     const transfer = await transactionContract.getTransactionCount();
-
-  //     setTransactionCount(transactionContract.toNumber());
-
-  //     return transfer;
-  //     // window.location.reload();
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw new Error("No ethereum object.");
-  //   }
-  // };
-
   const sendTransaction = async () => {
     try {
+      // checkIfWalletIsConnect();
+      // if (!ethereum) return alert("Please install MetaMask");
       const { addressTo, amount } = formData;
       const transactionContract = getEthereumContract();
       const parsedAmount = ethers.utils.parseEther(amount);
-  
-      // Only interact with the contract
-      const transactionHash = await transactionContract.addToBlockchain(
-        addressTo,
-        parsedAmount
-      );
-  
-      await transactionHash.wait();
-  
-      const transfer = await transactionContract.getTransactionCount();
-      setTransactionCount(transfer.toNumber());
-  
-      return transfer;
+
+      console.log(addressTo);
+      await ethereum.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            from: currentAccount,
+            to: addressTo,
+            gas: "0x5208", // 21000 gwi
+            value: parsedAmount._hex,
+          },
+        ],
+      });
+      // const transactionHash = await transactionContract.addToBlockchain(
+      //   addressTo,
+      //   parsedAmount
+      // );
+
+      // setIsLoading(true);
+      // console.log(`Loading - ${transactionHash.hash}`);
+      // await transactionHash.wait();
+      // console.log(`Success - ${transactionHash.hash}`);
+      // setIsLoading(false);
+
+      // const transfer = await transactionContract.getTransactionCount();
+
+      // setTransactionCount(transactionContract.toNumber());
+
+      // return transfer;
+      // window.location.reload();
     } catch (error) {
       console.log(error);
       throw new Error("No ethereum object.");
     }
   };
+
+  
   
 
   const getBalances = async () => {
@@ -162,7 +136,7 @@ export const TransactionsProvider = ({ children }) => {
         params: [currentAccount, "latest"],
       });
 
-      console.log(balanceWei)
+      // console.log(balanceWei)
       
         const bal = ethers.utils.formatEther(balanceWei);
         setWeiBalance(bal);
@@ -183,14 +157,14 @@ export const TransactionsProvider = ({ children }) => {
       // const binanceTestChainId = "0x61";
       if (!ethereum) throw new Error("MetaMask is not installed!");
 
-      console.log(currentChainId, "THIS LINE FROM 142");
+      // console.log(currentChainId, "THIS LINE FROM 142");
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: currentChainId },null],
       });
 
       window.location.reload();
-      console.log(currentChainId);
+      // console.log(currentChainId);
     } catch (err) {
       function getChainInfo(currentChainId) {
         return network.find((chain) => chain.chainId === currentChainId);
@@ -211,39 +185,9 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-  // const switchNetwork = async () => {
-  //   try {
-  //     if (!ethereum) throw new Error("MetaMask is not installed!");
-  
-  //     console.log(currentChainId, "Switching network...");
-      
-  //     await window.ethereum.request({
-  //       method: "wallet_switchEthereumChain",
-  //       params: [{ chainId: currentChainId }],
-  //     });
-  
-  //     window.location.reload();
-  //     console.log("Switched to network:", currentChainId);
-  //   } catch (err) {
-  //     if (err.code === 4902) {
-  //       try {
-  //         const networkData = network.find((chain) => chain.chainId === currentChainId);
-  //         await window.ethereum.request({
-  //           method: "wallet_addEthereumChain",
-  //           params: [networkData],
-  //         });
-  //         window.location.reload();
-  //       } catch (addError) {
-  //         console.error("Failed to add the network:", addError);
-  //       }
-  //     } else {
-  //       console.error("Failed to switch network:", err);
-  //     }
-  //   }
-  // };
-  
 
-  const checkStatusNetwork = async () => {
+
+  async function checkStatusNetwork() {
     if (currentAccount.length > 0) {
       const chainId = await window.ethereum.request({ method: "eth_chainId" });
 
@@ -256,7 +200,7 @@ export const TransactionsProvider = ({ children }) => {
       });
       console.log(chainId, "THIS IS CHAINID🎶🎶🎶🎶🎶🎶");
     }
-  };
+  }
 
   const getLogout = async () => {
     try {
@@ -279,10 +223,10 @@ export const TransactionsProvider = ({ children }) => {
 getBalances();
 checkStatusNetwork();
 
-  console.log(currentAccount.length);
-  useEffect(() => {
-    checkIfWalletIsConnect();
-
+console.log(currentAccount.length);
+useEffect(() => {
+  checkIfWalletIsConnect();
+  
   }, [transactionCount]);
   return (
     <TransactionContext.Provider

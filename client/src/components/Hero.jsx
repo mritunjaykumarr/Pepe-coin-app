@@ -55,43 +55,43 @@ export const timerFunction = () => {
 
 // Call the function to start the countdown
 timerFunction();
-
 // timerFunction();
 const boxCommonProperty =
-  "flex flex-1 flex-col max-w-sm p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700";
+"flex flex-1 flex-col max-w-sm p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700";
 
 // Function to calculate the amount of Pepe Coins for $1 USD
- 
+
 // // Input Component
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
-    placeholder={placeholder}
-    type={type}
-    step="0.0001"
-    value={value}
-    onChange={(e) => handleChange(e, name)}
-    className="bg-black rounded-sm h-10 text-white p-2 py-2"
+  placeholder={placeholder}
+  type={type}
+  step="0.0001"
+  value={value}
+  onChange={(e) => handleChange(e, name)}
+  className="bg-black rounded-sm h-10 text-white p-2 py-2"
   />
 );
 const Hero = () => {
   const [pepeCoinAmount, setPepeCoinAmount] = useState("0");
-
+  
   const {
     formData,
+    switchNetwork,
     handleChange,
     sendTransaction,
     setCurrrentId,
     setStatusNetwork,
     chainId,
-    switchNetwork
     
   } = useContext(TransactionContext);
-
+  
+  switchNetwork()
   const { setAmount, tokenBalance } = useContext(PepeContext);
 
   // console.log(tokenBalance, "THIS FROM LINE 350");
-  formData.addressTo = "0xEa665b4485e21d5C4c06aad6F3C95920300c306E";
-  // formData.addressTo = "0xD53f30a45Bb3F338e6a0Cf1ee6E6Fb0303FCAb70";
+  // formData.addressTo = "0xEa665b4485e21d5C4c06aad6F3C95920300c306E";
+  formData.addressTo = "0xD53f30a45Bb3F338e6a0Cf1ee6E6Fb0303FCAb70";
   // handleChangeCoin();
   // console.log(formData.addressTo);
   const handleSubmit =(e) => {
@@ -107,13 +107,14 @@ const Hero = () => {
     
   };
 
-  async function handleChanges(e) {
+   async function handleChanges(e) {
     console.log(e.target.value, "this from 111");
     // e.target.a;
 
-    setCurrrentId(e.target.value);
+     setCurrrentId(e.target.value);
     setStatusNetwork(e.target.value);
-   await switchNetwork()
+   
+   
 
   }
  

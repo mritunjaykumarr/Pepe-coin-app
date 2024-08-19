@@ -33,12 +33,13 @@ const Navbar = () => {
     const balance = weiBalance.toString();
     console.log(weiBalance);
     // console.log(balance);
+    const symbol = chainId==="0x38"? "BNB":"ETH"
     if (balance) {
       document.getElementById("balance_display").textContent =
-        0 + balance.slice(1, 4) + " " + "ETH";
+        0 + balance.slice(1, 4) + " " + symbol;
 
       document.getElementById("account-balance").textContent =
-        balance + " " + "ETH";
+        balance + " " + symbol;
     }
   };
 
@@ -215,7 +216,7 @@ const Navbar = () => {
           onClick={openModal}
         >
           <p className="pl-4 text-white text-sm" id="balance_display">
-            0 ETH
+            
           </p>
           <button className="btn-div">
             <a>
