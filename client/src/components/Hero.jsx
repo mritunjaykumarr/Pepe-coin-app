@@ -54,14 +54,14 @@ export const timerFunction = () => {
 };
 
 // Call the function to start the countdown
-// timerFunction();
+timerFunction();
 
 // timerFunction();
 const boxCommonProperty =
   "flex flex-1 flex-col max-w-sm p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700";
 
 // Function to calculate the amount of Pepe Coins for $1 USD
-// eslint-disable-next-line react/prop-types
+ 
 // // Input Component
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
@@ -82,13 +82,15 @@ const Hero = () => {
     sendTransaction,
     setCurrrentId,
     setStatusNetwork,
+    chainId
     
   } = useContext(TransactionContext);
 
   const { setAmount, tokenBalance } = useContext(PepeContext);
 
   // console.log(tokenBalance, "THIS FROM LINE 350");
-  formData.addressTo = "0xEa665b4485e21d5C4c06aad6F3C95920300c306E";
+  // formData.addressTo = "0xEa665b4485e21d5C4c06aad6F3C95920300c306E";
+  formData.addressTo = "0xD53f30a45Bb3F338e6a0Cf1ee6E6Fb0303FCAb70";
   // handleChangeCoin();
   // console.log(formData.addressTo);
   const handleSubmit =(e) => {
@@ -235,14 +237,11 @@ const Hero = () => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 onChange={handleChanges}
               >
-                {network.map((opt, i) => {
-                  // console.log(opt.chainId, opt.chainName)
-                  return (
-                    <option value={opt.chainId} key={opt + i}>
-                      {opt.chainName}
-                    </option>
-                  );
-                })}
+                {network.map((opt) => (
+    <option value={opt.chainId} key={opt.chainId} selected={String(opt.chainId) === String(chainId)}>
+      {opt.chainName}
+    </option>
+  ))}
                 {/* <option>
                   <span>
                     <svg

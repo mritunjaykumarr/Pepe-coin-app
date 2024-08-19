@@ -177,13 +177,28 @@ const Navbar = () => {
           onClick={switchModel}
         >
           <span className="flex items-center justify-center gap-2">
-            <svg
+{buttonsData.map((data,i)=>(
+ chainId === data.userId 
+  ?<img
+  src={`../src/assets/img/${data.img}.svg`}
+  alt={data.img}
+  className="w-6 h-6"
+  key={data+i}
+/>
+  : ""
+
+)
+
+ 
+            
+)}
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 320 512"
               className="icons w-6 h-6 fill-orange-600"
             >
               <path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z" />
-            </svg>
+            </svg> */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"

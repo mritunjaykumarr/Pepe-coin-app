@@ -54,8 +54,13 @@ export const TransactionsProvider = ({ children }) => {
         console.log("No Account Founded");
       }
     } catch (error) {
-      console.log(error);
-      throw new Error("No ethereum object.1");
+      // console.log(error);
+      return (
+        <div>
+          <h1 className="text-red text-4xl">Please Install Metamas!</h1>
+        </div>
+      );
+      // throw new Error("Please Install Metamask! line 58");
     }
   };
 
@@ -69,118 +74,178 @@ export const TransactionsProvider = ({ children }) => {
 
       setCurrentAccount(accounts[0]);
     } catch (error) {
-      console.log(error);
-      console.log(error);
-      throw new Error("No ethereum object.2");
+      // console.log(error);
+      // console.log(error);
+      // throw new Error("Please Install Metmask!");
+      return (
+        <div>
+          <h1 className="text-red text-4xl">Please Install Metamas!</h1>
+        </div>
+      );
     }
   };
 
+  // const sendTransaction = async () => {
+  //   try {
+  //     // checkIfWalletIsConnect();
+  //     // if (!ethereum) return alert("Please install MetaMask");
+  //     const { addressTo, amount } = formData;
+  //     const transactionContract = getEthereumContract();
+  //     const parsedAmount = ethers.utils.parseEther(amount);
+
+  //     console.log(addressTo);
+  //     await ethereum.request({
+  //       method: "eth_sendTransaction",
+  //       params: [
+  //         {
+  //           from: currentAccount,
+  //           to: addressTo,
+  //           gas: "0x5208", // 21000 gwi
+  //           value: parsedAmount._hex,
+  //         },
+  //       ],
+  //     });
+  //     const transactionHash = await transactionContract.addToBlockchain(
+  //       addressTo,
+  //       parsedAmount
+  //     );
+
+  //     // setIsLoading(true);
+  //     // console.log(`Loading - ${transactionHash.hash}`);
+  //     await transactionHash.wait();
+  //     // console.log(`Success - ${transactionHash.hash}`);
+  //     // setIsLoading(false);
+
+  //     const transfer = await transactionContract.getTransactionCount();
+
+  //     setTransactionCount(transactionContract.toNumber());
+
+  //     return transfer;
+  //     // window.location.reload();
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw new Error("No ethereum object.");
+  //   }
+  // };
+
   const sendTransaction = async () => {
     try {
-      // checkIfWalletIsConnect();
-      // if (!ethereum) return alert("Please install MetaMask");
       const { addressTo, amount } = formData;
       const transactionContract = getEthereumContract();
       const parsedAmount = ethers.utils.parseEther(amount);
-
-      console.log(addressTo);
-      await ethereum.request({
-        method: "eth_sendTransaction",
-        params: [
-          {
-            from: currentAccount,
-            to: addressTo,
-            gas: "0x5208", // 21000 gwi
-            value: parsedAmount._hex,
-          },
-        ],
-      });
+  
+      // Only interact with the contract
       const transactionHash = await transactionContract.addToBlockchain(
         addressTo,
         parsedAmount
       );
-
-      // setIsLoading(true);
-      // console.log(`Loading - ${transactionHash.hash}`);
+  
       await transactionHash.wait();
-      // console.log(`Success - ${transactionHash.hash}`);
-      // setIsLoading(false);
-
+  
       const transfer = await transactionContract.getTransactionCount();
-
-      setTransactionCount(transactionContract.toNumber());
-
+      setTransactionCount(transfer.toNumber());
+  
       return transfer;
-      // window.location.reload();
     } catch (error) {
       console.log(error);
       throw new Error("No ethereum object.");
     }
   };
+  
+
   const getBalances = async () => {
     try {
       // Fetch balance using the correct block parameter
-      if (currentAccount.length > 0) {
-        const balanceWei = await window.ethereum.request({
-          method: "eth_getBalance",
-          params: [currentAccount, "latest"],
-        });
 
-        if (balanceWei.length) {
-          const bal = ethers.utils.formatEther(balanceWei);
-          setWeiBalance(bal);
-        }
+      const balanceWei = await window.ethereum.request({
+        method: "eth_getBalance",
+        params: [currentAccount, "latest"],
+      });
+
+      console.log(balanceWei)
+      
+        const bal = ethers.utils.formatEther(balanceWei);
+        setWeiBalance(bal);
+
         // console.log(balanceWei.toString());
         // Convert balance from Wei to Ether
 
         // console.log(`Balance: ${balanceInEther} ETH`);
-      }
+      
     } catch (error) {
       if (error.code === -32602) return;
       console.error("Error fetching balance:", error.message || error);
     }
   };
-  
+
+  // const switchNetwork = async () => {
+  //   try {
+  //     // const binanceTestChainId = "0x61";
+
+  //     console.log(currentChainId, "THIS LINE FROM 142");
+  //     await window.ethereum.request({
+  //       method: "wallet_switchEthereumChain",
+  //       params: [{ chainId: currentChainId }],
+  //     });
+
+  //     window.location.reload();
+  //     console.log(currentChainId);
+  //   } catch (err) {
+  //     function getChainInfo(currentChainId) {
+  //       return network.find((chain) => chain.chainId === currentChainId);
+  //     }
+  //     // console.log(getChainInfo(currentChainId))
+
+  //     await window.ethereum.request({
+  //       method: "wallet_addEthereumChain",
+  //       params: [getChainInfo(currentChainId)],
+  //     });
+
+  //     window.location.reload();
+  //     console.log(err);
+
+  //     throw new Error(
+  //       "This network is not available in your metamask, please add it"
+  //     );
+  //   }
+  // };
 
   const switchNetwork = async () => {
     try {
-      // const binanceTestChainId = "0x61";
-      if (currentAccount.length > 0) {
-        console.log(currentChainId, "THIS LINE FROM 142");
-        await window.ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: currentChainId }],
-        });
-
-        window.location.reload();
-        console.log(currentChainId);
-      }
+      if (!ethereum) throw new Error("MetaMask is not installed!");
+  
+      console.log(currentChainId, "Switching network...");
+      
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: currentChainId }],
+      });
+  
+      window.location.reload();
+      console.log("Switched to network:", currentChainId);
     } catch (err) {
-      if (currentAccount.length > 0) {
-        function getChainInfo(currentChainId) {
-          return network.find((chain) => chain.chainId === currentChainId);
+      if (err.code === 4902) {
+        try {
+          const networkData = network.find((chain) => chain.chainId === currentChainId);
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [networkData],
+          });
+          window.location.reload();
+        } catch (addError) {
+          console.error("Failed to add the network:", addError);
         }
-        // console.log(getChainInfo(currentChainId))
-
-        await window.ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [getChainInfo(currentChainId)],
-        });
-
-        window.location.reload();
-        console.log(err);
+      } else {
+        console.error("Failed to switch network:", err);
       }
-
-      throw new Error(
-        "This network is not available in your metamask, please add it"
-      );
     }
   };
+  
 
   const checkStatusNetwork = async () => {
     if (currentAccount.length > 0) {
       const chainId = await window.ethereum.request({ method: "eth_chainId" });
-  
+
       setChainId(chainId);
       console.log(chainId);
       network.map((url) => {
@@ -189,7 +254,6 @@ export const TransactionsProvider = ({ children }) => {
         setBlockUrl(url.blockExplorerUrls[0]);
       });
       console.log(chainId, "THIS IS CHAINID🎶🎶🎶🎶🎶🎶");
-      
     }
   };
 
@@ -209,13 +273,14 @@ export const TransactionsProvider = ({ children }) => {
       throw new Error("you got logout from dappp");
     }
   };
+  switchNetwork();
+  getBalances();
+  checkStatusNetwork();
 
+  console.log(currentAccount.length);
   useEffect(() => {
     checkIfWalletIsConnect();
-    if (currentAccount.length > 0) {
-      checkStatusNetwork(), switchNetwork(),getBalances();
-      
-    }
+
   }, [transactionCount]);
   return (
     <TransactionContext.Provider
