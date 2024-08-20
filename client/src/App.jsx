@@ -70,6 +70,7 @@ import Index from "./components/Index.jsx"
 import Refer from "./components/Refer.jsx"
 import  Navbar  from "./components/Navbar.jsx";
 import Hero  from "./components/Hero.jsx";
+import Service from "./components/Services.jsx"
 
 const App = () => {
   return (
@@ -79,7 +80,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/refer" element={<Refer />} />
-        <Route path="/pepe" element= {<><Navbar /><Hero /></>} />
+        <Route path="/pepe" element= {<><Navbar /><Hero /><Service/></>} />
       </Routes>
       {/* <Services />
       <Transactions />
