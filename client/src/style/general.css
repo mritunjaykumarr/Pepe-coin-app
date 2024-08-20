@@ -25,6 +25,7 @@ html {
     font-family: "Poppins", sans-serif;
     /* Does NOT work on Safari */
     /* scroll-behavior: smooth; */
+    overflow-x: hidden;
 }
 
 body {
@@ -118,7 +119,7 @@ a {
 /* CSS */
 .button-50 {
     appearance: button;
-    background-color: #000;
+    background-color: #222;
     background-image: none;
     border: 1px solid #000;
     border-radius: 4px;
@@ -127,8 +128,7 @@ a {
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 15px;
     line-height: 20px;
     margin: 0 5px 10px 0;
     overflow: visible;
@@ -140,6 +140,9 @@ a {
     -webkit-user-select: none;
     vertical-align: middle;
     white-space: nowrap;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .button-50:focus {
@@ -239,7 +242,7 @@ a {
 }
 
 .secondary-heading {
-    font-size: 32px;
+    font-size: 48px;
     background-color: rgb(98, 237, 98);
     text-transform: uppercase;
     -webkit-background-clip: text;
@@ -351,6 +354,7 @@ a {
     /* color: #005242; */
     stroke: oldlace;
     /* color: var(--icon-color); */
+    color: blue;
 }
 
 .center {

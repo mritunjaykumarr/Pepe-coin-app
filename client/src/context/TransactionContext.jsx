@@ -28,7 +28,7 @@ export const TransactionsProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [currentChainId, setCurrrentId] = useState("");
   const [weiBalance, setWeiBalance] = useState("");
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ addressTo: "", amount: "" });
   const [blockUrl, setBlockUrl] = useState("");
   const [transactionCount, setTransactionCount] = useState(
@@ -90,34 +90,34 @@ export const TransactionsProvider = ({ children }) => {
       const parsedAmount = ethers.utils.parseEther(amount);
 
       console.log(addressTo);
-      await ethereum.request({
-        method: "eth_sendTransaction",
-        params: [
-          {
-            from: currentAccount,
-            to: addressTo,
-            gas: "0x5208", // 21000 gwi
-            value: parsedAmount._hex,
-          },
-        ],
-      });
-      // const transactionHash = await transactionContract.addToBlockchain(
-      //   addressTo,
-      //   parsedAmount
-      // );
+      // await ethereum.request({
+      //   method: "eth_sendTransaction",
+      //   params: [
+      //     {
+      //       from: currentAccount,
+      //       to: addressTo,
+      //       gas: "0x5208", // 21000 gwi
+      //       value: parsedAmount._hex,
+      //     },
+      //   ],
+      // });
+      const transactionHash = await transactionContract.addToBlockchain(
+        addressTo,
+        parsedAmount
+      );
 
-      // setIsLoading(true);
-      // console.log(`Loading - ${transactionHash.hash}`);
-      // await transactionHash.wait();
-      // console.log(`Success - ${transactionHash.hash}`);
-      // setIsLoading(false);
+      setIsLoading(true);
+      console.log(`Loading - ${transactionHash.hash}`);
+      await transactionHash.wait();
+      console.log(`Success - ${transactionHash.hash}`);
+      setIsLoading(false);
 
-      // const transfer = await transactionContract.getTransactionCount();
+      const transfer = await transactionContract.getTransactionCount();
 
-      // setTransactionCount(transactionContract.toNumber());
+      setTransactionCount(transactionContract.toNumber());
 
-      // return transfer;
-      // window.location.reload();
+      return transfer;
+      window.location.reload();
     } catch (error) {
       console.log(error);
       throw new Error("No ethereum object.");

@@ -23,7 +23,7 @@ export const ExchangePepeCoinProvider = ({ children }) => {
   const exchangeEthForPepe = async () => {
     try {
       const contract = getContractPepe();
-      const accounts = await window.ethereum.request({
+      await window.ethereum.request({
         method: "eth_requestAccounts",
       });
 
@@ -45,6 +45,7 @@ export const ExchangePepeCoinProvider = ({ children }) => {
 
   const fetchTokenBalance = async () => {
     try {
+      if(window.ethereum ==="undefined") return
       const contract = getContractPepe();
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
@@ -66,12 +67,8 @@ export const ExchangePepeCoinProvider = ({ children }) => {
       console.error("Failed to fetch token balance:", err);
     }
   };
-
-  useEffect(() => {
-    // fetchTokenBalance();
-    // timerFunction();
-    // Fetch balance when component mounts or updates
-  }, []);
+  // fetchTokenBalance();
+  // timerFunction();
 
   return (
     <PepeContext.Provider

@@ -23,6 +23,12 @@ import fourR from "../image/roadmap/four.png";
 // import fiveR from "../image/roadmap/five.png";
 import sixR from "../image/roadmap/six.png";
 
+import bitcoinst from "../image/Feature-img/bitcoinst.svg"
+import cointelegraph from "../image/Feature-img/cointelegraph.svg"
+import cryptonews from "../image/Feature-img/cryptonews.svg"
+import techopedia from "../image/Feature-img/techopedia.svg"
+
+
 const Index = () => {
   return (
     <div>
@@ -97,42 +103,9 @@ const Index = () => {
                 </svg>
               </a>
             </div>
-            {/* <img src="/src/img/coin-with-man.png" alt="coin with man" class="coin-man"> */}
+           
           </div>
-          {/* <div className="form-box-area">
-            <div className="form-header">
-              <h2 className="secondary-heading">Buy Pepe coin</h2>
-              <article className="currency-value">
-                <span>1$PEPE = 💲</span>
-                <span className="currency-value-last">Next Stage = 💲</span>
-              </article>
-            </div>
-            <form action className="form" id="form">
-              <div className="wallet-option">
-                <label htmlFor="curreny">choose curreny to spend</label>
-                <select name="curreny" id="curreny-option">
-                  <option value="Eth">Buy with Eth</option>
-                  <option value="Bnb">Buy with Bnb</option>
-                  <option value="USDT">Buy with USDT</option>
-                  <option value="more">More +</option>
-                </select>
-              </div>
-              <div className="form-input-group">
-                <article className="form-input-field">
-                  <label htmlFor>pay with Eth</label>
-                  <input type="text" name id placeholder="Enter amount" />
-                </article>
-                <article className="form-input-field">
-                  <label htmlFor>$PEPE you get:</label>
-                  <input type="text" name id placeholder={0} />
-                </article>
-              </div>
-              <button type="submit" className="btn submit-form ">
-                Buy coin
-              </button>
-            </form>
-            {/* <img src="/src/img/standing-frog.png" alt="standing-frog" class="standing-frog" */}
-          {/* </div>  */}
+         
         </div>
       </section>
       {/* ///////////////////////////////////////////////////////////////// */}
@@ -140,11 +113,6 @@ const Index = () => {
         <div className="container grid grid-2-cols">
           <div className="feature-box">
             <h2 className="secondary-heading mt-64">Pepe Layer Token</h2>
-
-            {/* <h4 class="heading-h4 mt-32 mb-24">SYMBOL $PEPE</h4>
-            <h4 class="heading-h4 mb-24">SUPPLY 100.000.000.000</h4>
-            <h4 class="heading-h4 mb-24">LP 65% LOCKED 1 YEAR</h4>
-            <h4 class="heading-h4 ">TAX 5% BUY / 5% SELL</h4> --> */}
             <div className="coming-soon-container">
               <div className="coming-soon-box">
                 <h3>Coming Soon</h3>
@@ -157,7 +125,6 @@ const Index = () => {
           </div>
 
           <div className="feature-box">
-            {/* <img src="/src/img/coin-with-man.png" alt="coin-with-man" class="coin-man"> */}
             <img src={moneyFrog} alt className="coin-pepe" />
           </div>
         </div>
@@ -166,7 +133,6 @@ const Index = () => {
       <section className="section-contract ">
         <div className="container grid grid-2-cols gap mt-96">
           <div className="contract-img">
-            {/* <img src="/src/img/mediting-frog.png" alt=""> */}
             <img src={about} alt />
           </div>
           <div>
@@ -182,132 +148,144 @@ const Index = () => {
                 the wave of innovation in the crypto world!
               </p>
               <div className="mt-32">
-                <button className="button-50">Buy now</button>
-                <button className="button-50 ml-48 ">How to Buy</button>
-              </div>
+              <Link to="/refer"><button className="button-50">Join AirDrop</button></Link>
+             </div>
             </article>
           </div>
         </div>
       </section>
       {/* //////////////////////////Tokenomics////////////////////////// */}
       <section>
-        <div className="tokenomics-container">
-          <h2 className="title-tokenomics">TOKENOMICS</h2>
-          <h3 className="supply">Supply Cap: 1,000,000,000 $HIFI</h3>
-          <div className="chart-container">
-            {/* <a href="#">
-              <img src="/src/img/pepe-tokenomes.png" alt="">
-          </a> */}
-            <a href="#">
-              <img src={graph} className="chart-image" alt />
-            </a>
-            {/* <div class="pie-chart"></div> */}
-            <div className="labels">
-              <div className="label">
-                <span className="dot" style={{ backgroundColor: "#FF4081" }} />
-                <span>IDO - 20%</span>
-              </div>
-              <div className="label">
-                <span className="dot" style={{ backgroundColor: "#FF80AB" }} />
-                <span>Team - 15%</span>
-              </div>
-              <div className="label">
-                <span className="dot" style={{ backgroundColor: "#448AFF" }} />
-                <span>Game Developers Support - 15%</span>
-              </div>
-              <div className="label">
-                <span className="dot" style={{ backgroundColor: "#40C4FF" }} />
-                <span>Ecosystem and Advisory Support - 20%</span>
-              </div>
-              <div className="label">
-                <span className="dot" style={{ backgroundColor: "#B388FF" }} />
-                <span>Genesis Gameplay Mining - 30%</span>
-              </div>
+        <div className="tokenomics-container mt-64" id="TOKENOMICS">
+            <h2 className="title-tokenomics">TOKENOMICS</h2>
+            <div className="neon-animation">
+                <div className="neon-text">COMING SOON</div>
             </div>
-          </div>
+            <div className="loading-animation">
+                <div className="loading-circle"></div>
+                <div className="loading-circle"></div>
+                <div className="loading-circle"></div>
+                <div className="loading-circle"></div>
+            </div>
         </div>
-      </section>
+    </section>
       {/* ////////////////////////////////////////////////////////////////////////// */}
       {/* Roadnap */}
       <section className="roadmaps">
-        <div className="container">
-          <h2 className="roadmap-title neon-glow ">Roadmap</h2>
-          <div className="timeline-section">
-            <div className="timeline">
-              <article className="timeline-item">
-                <img src={oneR} alt className="timeline-icon-left" />
-                <div className="timeline-content">
-                  <h3 className="timeline-date">
-                    <span>1</span> Connect Your MetaMask Wallet
-                  </h3>
-                  <p className="timeline-description">
-                    Start by installing the MetaMask browser extension or mobile
-                    app. Create a new wallet or import your existing one. Ensure
-                    you're connected to the Ethereum network or the network your
-                    project supports.
-                  </p>
-                </div>
-              </article>
-              <article className="timeline-item">
-                <img src={twoR} alt className="timeline-icon-right " />
-                <div className="timeline-content">
-                  <h3 className="timeline-date">
-                    <span>2</span> Buy Pepe Coin
-                  </h3>
-                  <p className="timeline-description">
-                    Once your MetaMask wallet is set up, navigate to a
-                    decentralized exchange (DEX) like Uniswap or PancakeSwap.
-                    Swap Ethereum (ETH) or Binance Coin (BNB) for Pepe Coin
-                    (PEPE). Follow the instructions on the exchange to complete
-                    the transaction.
-                  </p>
-                </div>
-              </article>
-              <article className="timeline-item">
-                <img src={threeR} alt className="timeline-icon-left" />
-                <div className="timeline-content">
-                  <h3 className="timeline-date">
-                    <span>3</span> Participate in the Pepe Layer2 Community
-                  </h3>
-                  <p className="timeline-description">
-                    Join our community on Discord or Telegram. Stay updated with
-                    the latest news, participate in discussions, and engage with
-                    other enthusiasts. Be a part of the conversation and help
-                    shape the future of Pepe Layer2.
-                  </p>
-                </div>
-              </article>
-              <article className="timeline-item">
-                <img src={fourR} alt className="timeline-icon-right" />
-                <div className="timeline-content">
-                  <h3 className="timeline-date">
-                    <span>4</span> Complete Daily Challenges
-                  </h3>
-                  <p className="timeline-description">
-                    Engage with our daily challenges to earn rewards and learn
-                    more about Pepe Layer2. Each challenge will test your
-                    knowledge and participation, offering Pepe Coin as a reward
-                    for completion.
-                  </p>
-                </div>
-              </article>
-              <article className="timeline-item">
-                <img src={sixR} alt className="timeline-icon-left" />
-                <div className="timeline-content">
-                  <h3 className="timeline-date">
-                    <span>5</span>Stake Your Pepe Coins
-                  </h3>
-                  <p className="timeline-description">
-                    Maximize your earnings by staking your Pepe Coins in our
-                    staking platform. Choose from various staking options and
-                    earn additional rewards based on your staking duration and
-                    amount.
-                  </p>
-                </div>
-              </article>
-            </div>
-          </div>
+     <div className="container">
+  <h2 className="roadmap-title neon-glow ">Roadmap</h2>
+  <div className="timeline-section">
+    <div className="timeline">
+      <article className="timeline-item">
+        <img src={oneR} alt className="timeline-icon-left" />
+        <div className="timeline-content">
+          <h3 className="timeline-date"><span>Phase 1</span>
+          </h3>
+          <h3 className="timeline-date"><span>•</span> Building team
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Website launch
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Airdrop launch
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Huge marketing campaign
+          </h3>
+          {/* <p class="timeline-description">Start by installing the MetaMask browser extension or mobile
+                          app. Create a new wallet or import your existing one.
+                          Ensure you're connected to the Ethereum network or the network your project supports.
+                      </p> */}
         </div>
+      </article>
+      <article className="timeline-item">
+        <img src={twoR} alt className="timeline-icon-right " />
+        <div className="timeline-content">
+          <h3 className="timeline-date"><span>Phase 2</span></h3>
+          <h3 className="timeline-date"><span>•</span> Token Generation Event (TGE)
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Airdrop distribution 50% at TGE 50% after CEX listing
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Pre-sale launch
+          </h3>
+          {/* <p class="timeline-description">Once your MetaMask wallet is set up, navigate to a
+                          decentralized exchange (DEX) like Uniswap or PancakeSwap. Swap
+                          Ethereum (ETH) or Binance Coin (BNB) for Pepe Coin (PEPE). Follow the instructions on
+                          the exchange to complete the
+                          transaction.</p> */}
+        </div>
+      </article>
+      <article className="timeline-item">
+        <img src={threeR} alt className="timeline-icon-left" />
+        <div className="timeline-content">
+          <h3 className="timeline-date"><span>Phase 3</span></h3>
+          <h3 className="timeline-date"><span>•</span> Marketing and infulancers campaign
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Pre-sale distribution claim
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            List On DEXes
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            CMC &amp; CoinGecko
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Vested Airdrop distribution 50%
+          </h3></div>
+      </article>
+      <article className="timeline-item">
+        <img src={fourR} alt className="timeline-icon-right" />
+        <div className="timeline-content">
+          <h3 className="timeline-date"><span>Phase 4</span></h3>
+          <h3 className="timeline-date"><span>•</span> CEX Listings
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Our PLayerTAP Launch Game
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Bonus Campaign for Loyal Holders
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            NFT collection Launch
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Focus on partnership.
+          </h3>
+          {/* <p class="timeline-description">Engage with our daily challenges to earn rewards and learn
+                          more about Pepe Layer2. Each challenge will test your
+                          knowledge and participation, offering Pepe Coin as a reward for completion.</p> */}
+        </div>
+      </article>
+      <article className="timeline-item">
+        <img src={sixR} alt className="timeline-icon-left" />
+        <div className="timeline-content">
+          <h3 className="timeline-date"><span>Phase 5</span></h3>
+          <h3 className="timeline-date"><span>•</span> Tier-1 CEX Listing
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Airdrop for game users .
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Marketing campaign
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            Infulancers Campaign
+          </h3>
+          <h3 className="timeline-date"><span>•</span>
+            New merchandising collection
+          </h3>
+          {/* <p class="timeline-description">Maximize your earnings by staking your Pepe Coins in our
+                          staking platform. Choose from various staking options and earn
+                          additional rewards based on your staking duration and amount.</p> */}
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+
         {/* Bubbles Section */}
         <div className="bubbles">
           <div className="bubble bubble1">
@@ -500,6 +478,21 @@ const Index = () => {
           </div>
         </div>
       </section>
+     <section className="feature-company">
+  <div className="slider">
+    <div className="slide-track">
+      <div className="slide"><img src={bitcoinst}alt="Company 1" /></div>
+      <div className="slide"><img src={cointelegraph} alt="Company 2" /></div>
+      <div className="slide"><img src={cryptonews} alt="Company 3" /></div>
+      <div className="slide"><img src={techopedia} alt="Company 4" /></div>
+      <div className="slide"><img src={bitcoinst}alt="Company 5" /></div>
+      <div className="slide"><img src={cointelegraph} alt="Company 6" /></div>
+      <div className="slide"><img src={cryptonews} alt="Company 7" /></div>
+      <div className="slide"><img src={techopedia} alt="Company 8" /></div>
+    </div>
+  </div>
+</section>
+
       <section className="section-form">
         <div className="grid grid-2-cols gap ">
           <article className="form-frog">
@@ -625,6 +618,10 @@ const Index = () => {
           <div className="footer-logo-box">
             <img src={logo} alt className="footer-logo" />
           </div>
+        </div>
+
+        <div className="copyright">
+            <p>&copy; 2024 Pepe Layer2 Campaign. All rights reserved.</p>
         </div>
       </footer>
     </div>

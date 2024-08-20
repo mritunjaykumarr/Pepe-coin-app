@@ -10,7 +10,7 @@ import "./style/general.css";
 import "./style/style.css";
 import "./style/pop.css";
 import "./style/query.css";
-import "./style/refer.css";
+// import "./style/refer.css";
 
 
 createRoot(document.getElementById("root")).render(
