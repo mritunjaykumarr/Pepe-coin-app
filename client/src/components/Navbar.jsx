@@ -139,6 +139,15 @@ const Navbar = () => {
     }
   };
 
+  // {chainId === button.userId && chainId === statusNetwork
+  //   ? "Active"
+    // : ""}
+
+  const activeShow = async (button)=>{
+    if(chainId=== button.userId && button.userId===statusNetwork){
+      document.getElementById('active-status').textContent= "Active"
+    }
+  }
   return (
     <nav className="header">
       <div className="">
@@ -340,8 +349,8 @@ const Navbar = () => {
                     className="w-6 h-6"
                   />
                   <span className="px-2" > {button.label}</span>
-                  <span className="text-green-600">
-                    {chainId === button.userId && chainId === statusNetwork
+                  <span className="text-green-600" id="active-status">
+                    {chainId === button.userId
                       ? "Active"
                       : ""}
                   </span>
