@@ -183,7 +183,7 @@ const Navbar = () => {
 {buttonsData.map((data,i)=>(
  chainId === data.userId 
   ?<img
-  src={`/src/assets/img/${data.img}.svg`}
+  src={`/assets/img/${data.img}.svg`}
   alt={data.img}
   className="w-6 h-6"
   key={data+i}
