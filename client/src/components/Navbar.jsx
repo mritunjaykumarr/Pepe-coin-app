@@ -92,28 +92,28 @@ const Navbar = () => {
       userId: "0x1",
       className: "network-btn mb-3",
       label: "Ethereum",
-      img: "ethereum",
+      img: `${ethereum}`,
       id: 1,
     },
     {
       userId: "0x38",
       className: "network-btn mb-3",
       label: "Binance Smart Chain",
-      img: "bnb",
+      img: `${bnb}`,
       id: 2,
     },
     {
       userId: "0x2105",
       className: "network-btn mb-3",
       label: "Base",
-      img: "base",
+      img: `${base}`,
       id: 3,
     },
     {
       userId: "0xA4B1",
       className: "network-btn mb-3",
       label: "Arbitrum One",
-      img: "arbitrum",
+      img: `${arbitrum}`,
       id: 4,
     },
   ];
@@ -183,7 +183,7 @@ const Navbar = () => {
 {buttonsData.map((data,i)=>(
  chainId === data.userId 
   ?<img
-  src={`/assets/img/${data.img}.svg`}
+  src={data.img}
   alt={data.img}
   className="w-6 h-6"
   key={data+i}
@@ -335,7 +335,7 @@ const Navbar = () => {
               >
                 <p className="flex items-center">
                   <img
-                    src={`/src/assets/img/${button.img}.svg`}
+                    src={button.img}
                     alt=""
                     className="w-6 h-6"
                   />
