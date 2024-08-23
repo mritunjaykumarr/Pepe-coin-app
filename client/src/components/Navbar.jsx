@@ -27,7 +27,7 @@ const Navbar = () => {
     switchNetwork
   } = useContext(TransactionContext);
 
-  console.log(statusNetwork, "THIS FROM LINE 26");
+  // console.log(statusNetwork, "THIS FROM LINE 26");
 
   const fetchBalance = () => {
     const balance = weiBalance.toString();
@@ -120,7 +120,7 @@ const Navbar = () => {
 
   const handleChainChangeClick = async (event) => {
     const userId = event.currentTarget.dataset.userId;
-    console.log(userId, "THIS FORM 😊😊😊😊😊");
+    // console.log(userId, "THIS FORM 😊😊😊😊😊");
     setCurrrentId(userId);
 
     await switchNetwork()

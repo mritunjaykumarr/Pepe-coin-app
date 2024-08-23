@@ -89,7 +89,7 @@ export const TransactionsProvider = ({ children }) => {
       const transactionContract = getEthereumContract();
       const parsedAmount = ethers.utils.parseEther(amount);
 
-      console.log(addressTo);
+      // console.log(addressTo);
       // await ethereum.request({
       //   method: "eth_sendTransaction",
       //   params: [
@@ -107,17 +107,17 @@ export const TransactionsProvider = ({ children }) => {
       );
 
       setIsLoading(true);
-      console.log(`Loading - ${transactionHash.hash}`);
+      // console.log(`Loading - ${transactionHash.hash}`);
       await transactionHash.wait();
-      console.log(`Success - ${transactionHash.hash}`);
+      // console.log(`Success - ${transactionHash.hash}`);
       setIsLoading(false);
 
       const transfer = await transactionContract.getTransactionCount();
 
       setTransactionCount(transactionContract.toNumber());
 
-      return transfer;
       window.location.reload();
+      return transfer;
     } catch (error) {
       console.log(error);
       throw new Error("No ethereum object.");
@@ -192,13 +192,13 @@ export const TransactionsProvider = ({ children }) => {
       const chainId = await window.ethereum.request({ method: "eth_chainId" });
 
       setChainId(chainId);
-      console.log(chainId);
+      // console.log(chainId);
       network.map((url) => {
         if (chainId === url.chainId)
-          console.log(url.blockExplorerUrls, "THIS FROM LINE 180");
+          // console.log(url.blockExplorerUrls, "THIS FROM LINE 180");
         setBlockUrl(url.blockExplorerUrls[0]);
       });
-      console.log(chainId, "THIS IS CHAINID🎶🎶🎶🎶🎶🎶");
+      // console.log(chainId, "THIS IS CHAINID🎶🎶🎶🎶🎶🎶");
     }
   }
 
@@ -223,7 +223,7 @@ export const TransactionsProvider = ({ children }) => {
 getBalances();
 checkStatusNetwork();
 
-console.log(currentAccount.length);
+// console.log(currentAccount.length);
 useEffect(() => {
   checkIfWalletIsConnect();
   

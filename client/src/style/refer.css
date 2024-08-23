@@ -179,7 +179,7 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 1em;
-  width: 50vh;
+  width: 75%;
   font-weight: bold;
   display: inline-block;
   text-align: center;
@@ -581,10 +581,10 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-#timer {
-  font-size: 1.2em;
-  color: #ff6347;
-  margin-top: 20px;
+.timer {
+  font-size: 1.2em !important;
+  color: #ff6347 !important;
+  margin-top: 20px !important;
 }
 
 .challenge-box button {

@@ -100,7 +100,7 @@ const Hero = () => {
 
     e.preventDefault();
     setAmount(amount);
-    console.log(amount,"this is amount 👌👌👌👌");
+    // console.log(amount,"this is amount 👌👌👌👌");
 
     if (!amount.length) return;
     
@@ -109,7 +109,7 @@ const Hero = () => {
   };
 
    async function handleChanges(e) {
-    console.log(e.target.value, "this from 111");
+    // console.log(e.target.value, "this from 111");
     // e.target.a;
 
      setCurrrentId(e.target.value);
