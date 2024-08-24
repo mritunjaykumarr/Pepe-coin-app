@@ -5,7 +5,11 @@ import cookieParser from "cookie-parser";
 
 // Start express app
 const app = express();
-app.use(cors())
+app.use(
+  cors({
+    origin: 'https://pepe-coin-api.vercel.app/', // Replace with your React app's Vercel URL
+  })
+);
 app.use(express.json())
 
 app.enable('trust proxy');
