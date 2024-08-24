@@ -1,141 +1,156 @@
-import User from "../models/userModel.js";
-
+import User from '../models/userModel.js';
 
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-    console.log(res.json)
+    console.log(res.json);
     res.json(users);
   } catch (error) {
-    console.error("Error fetching users;", error);
+    console.error('Error fetching users;', error);
   }
 };
 
-
-
-export const createUsers = async(req,res)=>{
-try{
-  const newUser = new User(req.body)
-  console.log(newUser)
-  await newUser.save()
-  res.status(201).json(newUser)
-}catch(error){
-  console.error("Error saving data",error)
-  res.status(500).json({
-    message:"Failed to save data",
-  })
-}
-}
-export const getReferedUser = async(req,res)=>{
+export const createUsers = async (req, res) => {
   try {
-    // const { referralCode } = req.body;
+    const newUser = new User(req.body);
+    console.log(newUser);
 
-    const newUser = await User.findOne()
-    res.json(newUser)
+    await newUser.save();
+
+     res.status(201).json({ status: 'sucess', data: { user: newUser } });
   } catch (error) {
-    console.error("Error saving data",error)
-  res.status(500).json({
-    message:"Failed to save data",
-  })
+    console.error('Error saving data', error);
+    res.status(500).json({
+      message: 'Failed to save data',
+    });
   }
-}
+};
 
-export const getUserById = async(req,res)=>{
+export const updateUser = async (req, res) => {
   try {
+    const { ethereumId } = req.params;
+    const { totalBalance, ...otherUpdates } = req.body;
 
-   const user = await User.findOne()
-    // console.log(user)
-    res.json(user)
-  } catch (error) {
-    console.log("'CAN'T FIND USER BASED ON USERID", error)
-  }
-}
-
-export const updateMe = async (req, res) => {
-  try {
-    const userId = req.params.id; // Get MongoDB _id from route parameters
-    const { referBalance, todayClaim, totalEarnDay, ...otherFields } = req.body;
-
-    // Construct the update object
-    const update = { ...otherFields };
-    if (referBalance !== undefined) {
-      update.$inc = { referBalance }; // Increment referBalance if provided
-    }
-    if (todayClaim !== undefined) {
-      update.todayClaim = todayClaim; // Update todayClaim if provided
-    }
-    if (totalEarnDay !== undefined) {
-      update.totalEarnDay = totalEarnDay; // Update totalEarnDay if provided
+    // Ensure referBalance is a number and increment correctly
+    const increment = Number(totalBalance);
+    if (isNaN(increment)) {
+      return res.status(400).json({ message: 'Invalid increment value' });
     }
 
-    const options = { new: true }; // Return the updated document
+    // Prepare the update object
+    const updateObject = {
+      ...otherUpdates, // Regular updates
+      $inc: { totalBalance: increment }, // Increment referBalance
+    };
 
-    // Find the user by MongoDB _id and update
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,  // Filter by MongoDB _id
-      update,  // Apply the updates
-      options  // Options to return the updated document
+    // Use findOneAndUpdate with the updateObject
+    const updateData = await User.findOneAndUpdate(
+      { ethereumId: ethereumId },
+      updateObject,
+      { new: true, runValidators: true }
     );
 
-    if (!updatedUser) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'User not found'
-      });
+    // if User does not exits
+    if (!updateData) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    // Respond with the updated user
     res.status(200).json({
       status: 'success',
       data: {
-        user: updatedUser
-      }
+        user: updateData,
+      },
     });
   } catch (error) {
-    console.error('Error updating user:', error);
-    res.status(500).json({ message: 'Error updating user', error });
+    console.error('Error saving data', error);
+    res.status(500).json({
+      message: 'Failed to update data',
+    });
   }
 };
 
-
-
-// updateMe()
-
-export const deleteUser = async(req,res)=>{
+export const getUserByEthereumId = async (req, res) => {
   try {
-    // await User.findByIdAndUpdate(req.id, { active: false });
-    const result = await User.deleteOne()
-    console.log(result); 
-    
-  } catch (error) {
-    console.log("ERROR WHILE DELETING THE USER TABLE",error)
-  }
-}
+    const { ethereumId } = req.params;
 
-// Function to get MongoDB _id from Ethereum address
-export const getMongoIdByEthereumAddress = async (req, res) => {
-  try {
-    const { ethereumAddress } = req.params; // Get Ethereum address from request parameters
+    const user = await User.findOne({ ethereumId: ethereumId });
+    console.log(user);
 
-    // Find the user by Ethereum address
-    const user = await User.findOne({ ethereumId: ethereumAddress });
-
-    if (!user) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'User not found'
-      });
-    }
-
-    // Respond with the MongoDB _id
     res.status(200).json({
       status: 'success',
       data: {
-        _id: user._id.toString()
-      }
+        user: user,
+      },
     });
   } catch (error) {
-    console.error('Error retrieving MongoDB _id:', error);
-    res.status(500).json({ message: 'Error retrieving MongoDB _id', error });
+    console.log("'CAN'T FIND USER BASED ON USERID", error);
+  }
+};
+
+export const deleteUserByEthereumId = async (req, res) => {
+  try {
+    const { ethereumId } = req.params;
+    // Find and delete the user by ethereumId
+    const deletedUser = await User.findOneAndDelete({ ethereumId: ethereumId });
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res
+      .status(200)
+      .json({ status: 'User deleted successfully', data: { user: '' } });
+  } catch (error) {
+    console.log("CAN'T DELETE USER!", error);
+  }
+};
+
+export const clickCheck = async (req, res) => {
+    const { ethereumId } = req.body;
+
+    try {
+        const user = await User.findOne({ ethereumId:ethereumId });
+        const currentTime = new Date();
+
+        if (user) {
+            const lastClickTime = user.lastClickTime;
+            const hours24 = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+            if (lastClickTime && (currentTime - lastClickTime < hours24)) {
+                return res.status(400).json({ message: 'Button is disabled for 24 hours.' });
+            }
+
+            // Update the lastClickTime
+            user.lastClickTime = currentTime;
+            await user.save();
+            res.status(200).json({ message: 'Button clicked successfully!' });
+        } else {
+            // If user does not exist, create a new user record
+            const newUser = new User({ ethereumId, lastClickTime: currentTime });
+            await newUser.save();
+            res.status(200).json({ message: 'Button clicked successfully!' });
+        }
+    } catch (error) {
+        console.error('Error handling button click:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+export const getUserByReferCode = async (req, res) => {
+  try {
+    const { referralCode } = req.params;
+
+    const user = await User.findOne({ referralCode: referralCode });
+    console.log(user);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user: user,
+      },
+    });
+  } catch (error) {
+    console.log("'CAN'T FIND USER BASED ON USERID", error);
   }
 };

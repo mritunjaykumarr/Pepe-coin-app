@@ -24,16 +24,16 @@ const Navbar = () => {
     statusNetwork,
     chainId,
     blockUrl,
-    switchNetwork
+    switchNetwork,
   } = useContext(TransactionContext);
 
   // console.log(statusNetwork, "THIS FROM LINE 26");
 
-  const fetchBalance = () => {
-    const balance = weiBalance.toString();
+  const fetchBalance = async () => {
+    const balance = await weiBalance.toString();
     console.log(weiBalance);
     // console.log(balance);
-    const symbol = chainId==="0x38"? "BNB":"ETH"
+    const symbol = chainId === "0x38" ? "BNB" : "ETH";
     if (balance) {
       document.getElementById("balance_display").textContent =
         0 + balance.slice(1, 4) + " " + symbol;
@@ -123,7 +123,7 @@ const Navbar = () => {
     // console.log(userId, "THIS FORM 😊😊😊😊😊");
     setCurrrentId(userId);
 
-    await switchNetwork()
+    await switchNetwork();
     closeSwitch();
   };
 
@@ -141,13 +141,13 @@ const Navbar = () => {
 
   // {chainId === button.userId && chainId === statusNetwork
   //   ? "Active"
-    // : ""}
+  // : ""}
 
-  const activeShow = async (button)=>{
-    if(chainId=== button.userId && button.userId===statusNetwork){
-      document.getElementById('active-status').textContent= "Active"
+  const activeShow = async (button) => {
+    if (chainId === button.userId && button.userId === statusNetwork) {
+      document.getElementById("active-status").textContent = "Active";
     }
-  }
+  };
   return (
     <nav className="header">
       <div className="">
@@ -161,7 +161,6 @@ const Navbar = () => {
       </div>
       <ul className="main-nav-list">
         <li>
-          
           <Link to="/" className="main-nav-link active">
             Hopenomics{" "}
           </Link>
@@ -182,57 +181,32 @@ const Navbar = () => {
           </a>
         </li>
       </ul>
-
-      <div className="flex gap-4">
-        <div
-          className="grident-btn rounded-lg w-13 flex items-center"
-          onClick={switchModel}
-        >
-          <span className="flex items-center justify-center gap-2">
-{buttonsData.map((data,i)=>(
- chainId === data.userId 
-  ?<img
-  src={data.img}
-  alt={data.img}
-  className="w-6 h-6"
-  key={data+i}
-/>
-  : ""
-
-)
-
- 
-            
-)}
-            {/* <svg
+      {currentAccount.length > 0 ? (
+        <div className="flex gap-4">
+          <div
+            className="grident-btn rounded-lg w-13 flex items-center"
+            onClick={switchModel}
+          >
+            <span className="flex items-center justify-center gap-2">
+              {buttonsData.map((data, i) =>
+                chainId === data.userId ? (
+                  <img
+                    src={data.img}
+                    alt={data.img}
+                    className="w-6 h-6"
+                    key={data + i}
+                  />
+                ) : (
+                  ""
+                )
+              )}
+              {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 320 512"
               className="icons w-6 h-6 fill-orange-600"
             >
               <path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z" />
             </svg> */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
-              className="icons w-6 h-6 fill-white"
-            >
-              <path d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
-            </svg>
-          </span>
-        </div>
-        <article
-          className="btn-box grident-btn cursor-pointer "
-          onClick={openModal}
-        >
-          <p className="pl-4 text-white text-sm" id="balance_display">
-            
-          </p>
-          <button className="btn-div">
-            <a>
-              <img src={logo} alt="" className="w-6 h-6" />
-            </a>
-            <p>{shortenAddress(currentAccount)}</p>
-            <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
@@ -241,9 +215,32 @@ const Navbar = () => {
                 <path d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
               </svg>
             </span>
-          </button>
-        </article>
-      </div>
+          </div>
+          <article
+            className="btn-box grident-btn cursor-pointer "
+            onClick={openModal}
+          >
+            <p className="pl-4 text-white text-sm" id="balance_display"></p>
+            <button className="btn-div">
+              <a>
+                <img src={logo} alt="" className="w-6 h-6" />
+              </a>
+              <p>{shortenAddress(currentAccount)}</p>
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  className="icons w-6 h-6 fill-white"
+                >
+                  <path d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
+                </svg>
+              </span>
+            </button>
+          </article>
+        </div>
+      ) : (
+        " "
+      )}
 
       <div className="overlay hidden">
         <section className="section-pop" id="model-menu">
@@ -343,16 +340,10 @@ const Navbar = () => {
                 className={button.className}
               >
                 <p className="flex items-center">
-                  <img
-                    src={button.img}
-                    alt=""
-                    className="w-6 h-6"
-                  />
-                  <span className="px-2" > {button.label}</span>
+                  <img src={button.img} alt="" className="w-6 h-6" />
+                  <span className="px-2"> {button.label}</span>
                   <span className="text-green-600" id="active-status">
-                    {chainId === button.userId
-                      ? "Active"
-                      : ""}
+                    {chainId === button.userId ? "Active" : ""}
                   </span>
                 </p>
               </button>

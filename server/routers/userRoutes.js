@@ -2,33 +2,29 @@ import express from 'express';
 import {
   getAllUsers,
   createUsers,
-  getReferedUser,
-  getUserById,
-  updateMe,
-  deleteUser,
-  getMongoIdByEthereumAddress,
+  // getReferedUser,
+  getUserByEthereumId,
+  updateUser,
+  deleteUserByEthereumId,
+  clickCheck,
+  getUserByReferCode
+  
 } from '../controllers/userController.js';
+// import { referUser, referUserPost } from '../controllers/referredController.js';
 
 const router = express.Router();
 
 // GETTING DATA FROM USERS
 
 router.get('/', getAllUsers);
+router.get('/user/:ethereumId',getUserByEthereumId)
 router.post('/create', createUsers);
-router.route('/user/:ethereumId').get(getUserById);
+router.put('/user/update/:ethereumId',updateUser)
+router.delete('/user/delete/:ethereumId',deleteUserByEthereumId)
 
-// router.get("/referral/",getReferedUser)
-router.route('/referral/:referralCode').get(getReferedUser);
-// router.get("/",setCookie)
+router.get("/refer/:referralCode",getUserByReferCode)
 
-router
-  .route('/update/user/:id') // Change to use _id
-  .get(getUserById)
-  .put(updateMe)
-  .delete(deleteUser);
-
-router
-  .route('/get-id-by-address/:ethereumAddress')
-  .get(getMongoIdByEthereumAddress);
+// click check
+router.post('/button-click',clickCheck)
 
 export default router;

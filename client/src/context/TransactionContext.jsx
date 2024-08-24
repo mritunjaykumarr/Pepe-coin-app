@@ -90,27 +90,27 @@ export const TransactionsProvider = ({ children }) => {
       const parsedAmount = ethers.utils.parseEther(amount);
 
       // console.log(addressTo);
-      // await ethereum.request({
-      //   method: "eth_sendTransaction",
-      //   params: [
-      //     {
-      //       from: currentAccount,
-      //       to: addressTo,
-      //       gas: "0x5208", // 21000 gwi
-      //       value: parsedAmount._hex,
-      //     },
-      //   ],
-      // });
-      const transactionHash = await transactionContract.addToBlockchain(
-        addressTo,
-        parsedAmount
-      );
+      await ethereum.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            from: currentAccount,
+            to: addressTo,
+            gas: "0x5208", // 21000 gwi
+            value: parsedAmount._hex,
+          },
+        ],
+      });
+      // await transactionContract.addToBlockchain(
+      //   addressTo,
+      //   parsedAmount
+      // );
 
-      setIsLoading(true);
+      // setIsLoading(true);
       // console.log(`Loading - ${transactionHash.hash}`);
-      await transactionHash.wait();
+      // await transactionHash.wait();
       // console.log(`Success - ${transactionHash.hash}`);
-      setIsLoading(false);
+      // setIsLoading(false);
 
       const transfer = await transactionContract.getTransactionCount();
 

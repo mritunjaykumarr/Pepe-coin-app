@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { contractABI, contractAddress } from "../utlis/constant";
 import React, { useState, useEffect } from "react";
-import { timerFunction } from "../components/Hero";
 
 export const PepeContext = React.createContext();
 

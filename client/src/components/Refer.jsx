@@ -1,5 +1,10 @@
-import { Link } from "react-router-dom";
-import {fetchDataAndSend, getUserById, updateUser, getMongoIdByAddress } from "./api";
+import {
+  fetchData,
+  fetchDataUser,
+  handleClick,
+  postDataFromUser,
+  updateUserData,
+} from "./api";
 import earnPepe from "../image/refers/earnPepe.mp4";
 import refer from "../image/refers/refer.png";
 import refersAnimation from "../image/refers/pepe-refer-animation.mp4";
@@ -12,128 +17,67 @@ import "../style/refer.css";
 import startTimer from "../utlis/countDown.jsx";
 import Countdown from "react-countdown";
 import VisitedLink from "./VisitedLink.jsx";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 
 const targetDate = Date.now() + 24 * 60 * 60 * 1000;
-const referAmount = 100;
-let todayClaimFromDB;
-let taskClaimFromDB;
+const randomCode = generateRandomToken();
 
 const Refer = () => {
   const [token, setToken] = useState([0]);
-    const [todayClaimList, setTodayClaimList] = useState([]);
   const [todayClaim, setTodayClaim] = useState(0);
 
   const [referDataList, setReferDataList] = useState([]);
   const [referDataTotal, setReferDataTotal] = useState(0);
- 
-  const [cookies, setCookie] = useCookies(['referralCode']);
-  const [referId,setReferId] = useState('')
-  const [mongodId , setMongoId] = useState('')
+
+  const [cookies, setCookie] = useCookies(["referralCode"]);
+  const [referId, setReferId] = useState("");
+
+  // to set data in ui
+  const [taskClaim, setTaskClaim] = useState(0);
+  const [dailyClaim, setDailyClaim] = useState(0);
+  const [referClaim, setReferClaim] = useState(0);
+  const [totalClaim, setTotalCalim] = useState(0);
+  const [referFriend, setReferFriend] = useState(0);
+  const [ethereumAccount, setEthereumAcount] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [referAmount, setReferAmount] = useState(0);
 
   const { currentAccount, connectWallet } = useContext(TransactionContext);
   const { taskMoney } = useContext(ReferContext);
 
-
-
- const mongodbID = async ()=>{
-const id = await getMongoIdByAddress(currentAccount)
-   setMongoId(id)
-
-  } 
-  
-  console.log(mongodId,"THIS IS COMMING FROM LINE 39 👍👍👍👍👍👍")
-
-  const sendCookie =  () =>{
-    try{
-      const referralCode =  token; // Replace with the actual referral code
+  const sendCookies = () => {
+    try {
+      const referralCode = token; // Replace with the actual referral code
       const expires = new Date();
       expires.setDate(expires.getDate() + 1); // Set expiration to 1 day
-  
-      setCookie('referralCode', referralCode, { path: '/', expires });
 
-    }catch(error){
-      console.log("ERROR WHILE STORING COOKIE",error)
+      setCookie("referralCode", referralCode, { path: "/", expires });
+    } catch (error) {
+      console.log("ERROR WHILE STORING COOKIE", error);
     }
-  }
+  };
 
-  console.log(cookies)
+  // console.log(cookies)
   // TO RETRIVE COOKIE FROM USER'S
-  const verifyUser =  () =>{
-    try{
+  const verifyUser = () => {
+    try {
       const referralCodes = cookies.referralCode;
 
-      if(referralCodes === token){
-        console.log('VERIFIED USER 👌👌👌👌👌')
-
-        const numValue = parseFloat(referAmount);
-
-        if (!isNaN(numValue)) {
-          // Update the list of referral amounts
-          setReferDataList((prevList) => [...prevList, numValue]);
-    
-          // Update the total sum of referral amounts
-          setReferDataTotal((prevTotal) => prevTotal + numValue);
-        } else {
-          console.error('Invalid number:', referAmount);
-        }
-       
-      }else{
-        console.error("NOt Verified User's❌❌❌❌❌")
+      if (referralCodes === token && currentAccount !== ethereumAccount) {
+        setReferId(currentAccount);
+        setReferAmount(100);
+        console.log("VERIFIED USER 👌👌👌👌👌");
       }
-    }catch(error){
-      console.log("NOT VERIFIED USER'S",error)
-    }
-
-
-  }
-
-  const totalBalance = Number(todayClaim) + Number(taskMoney) + Number(referDataTotal);
-  
-
-  const randomCode = generateRandomToken();
-  const postObj = {
-    ethereumId: currentAccount,
-    referBalance : 0,
-    todayClaim:0,
-    totalEarnDay:0,
-    referralCode: randomCode,
-  };
-
-  console.log(todayClaim,taskMoney,totalBalance)
-
-  const updateObj = {
-    todayClaim:todayClaim,
-    totalEarnDay:taskMoney,
-    referBalance:totalBalance,
-  }
-
-  // console.log(taskMoney, "line 35 from refer.jsx");
-  // console.log(currentAccount, postObj, "THIS COMMING FROM LINE 35 ❤️❤️❤️❤️❤️");
-
-  const getUser = async()=>{
-    const data = await getUserById(mongodId)
-    console.log(data[0],"THIS FROM LINE 98 😍😍😍😍😍")
-    setReferId(data[0].referBalance)
-    setToken(data[0].referralCode)
-
-    taskClaimFromDB = data[0].totalEarn
-    todayClaimFromDB = data[0].todayClaim
-
-  }
-
-  const postData = async () => {
-    try {
-     const res =  await fetchDataAndSend(postObj)
-
-     console.log(res, "this is comming from line 111")
     } catch (error) {
-      console.error("Getting error while POSTING data from user", error);
+      console.log("NOT VERIFIED USER'S", error);
     }
   };
 
-  console.log(totalBalance)
-  
+  const totalBalance =
+    Number(todayClaim) + Number(taskMoney) + Number(referDataTotal);
+
+  // console.log(todayClaim, taskMoney, totalBalance);
+
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(referLink);
@@ -144,57 +88,110 @@ const id = await getMongoIdByAddress(currentAccount)
     }
   };
 
-  const handleClaim = () => {
+  // create account based on these data
+  const postObj = {
+    ethereumId: currentAccount,
+    totalBalance: 0,
+    referralCode: randomCode,
+    todayClaim: 100,
+    totalEarnDay: 0,
+    referEarn: 0,
+    referredUser: [],
+  };
+
+  // for updating the user account balance
+  const updatedObj = {
+    todayClaim: todayClaim,
+    totalEarnDay: taskMoney,
+    totalBalance: totalBalance,
+    referEarn: referAmount,
+    referredUsers: [
+      {
+        ethereumId: referId,
+        status: "success",
+        referTime: new Date(),
+      },
+    ],
+  };
+
+  const updateUI = async () => {
     try {
-      if (currentAccount.length > 0) {
-        
-        const claimValue = 100;
+      if (currentAccount.length === 0) return;
 
-    // Update the claim list
-    setTodayClaimList((prevList) => {
-      const updatedList = [...prevList, claimValue];
-      return updatedList;
-    });
-
-    // Update the total sum
-    setTodayClaim((prevTotal) => prevTotal + claimValue);
-        // setTodayClaim(100);
-        // startTimer()
-        console.log("YOU GOT 100 PEPE!❤️❤️👌");
-      }
-      
+      const { data } = await fetchDataUser(currentAccount); // to find user on their ethereum address
+      const setVariable = data.data.user;
+      // setting the value of claim variable
+      setDailyClaim(setVariable.todayClaim);
+      setTaskClaim(setVariable.totalEarnDay);
+      setReferClaim(setVariable.referEarn);
+      setTotalCalim(setVariable.totalBalance);
+      setToken(setVariable.referralCode);
+      setReferFriend(setVariable.referredUsers.length);
+      setEthereumAcount(setVariable.ethereumId);
     } catch (error) {
-      console.log("Failed to Claim ", error);
+      throw new Error("can't find the user on your currentAcount adress");
     }
   };
-  
+
+  const createAccount = async () => {
+    try {
+      if (ethereumAccount === currentAccount) return;
+      await postDataFromUser(postObj);
+    } catch (error) {
+      throw new Error("UNABLE TO CREATE ACCOUNT!", error);
+    }
+  };
+  const updateAccount = async () => {
+    try {
+      if (ethereumAccount === currentAccount) {
+        await updateUserData(currentAccount, updatedObj);
+      }
+    } catch (error) {
+      throw new Error("UNABLE TO CREATE ACCOUNT!", error);
+    }
+  };
+
+  /////////////////////////////////////////////////////////////
+  // HANDLEING THE CLAIM FUNCTION
+
+  const handleClaim = async () => {
+    const result = await handleClick(currentAccount);
+    // alert(result.message);
+    if (result.success) {
+      setTodayClaim(100);
+      setIsDisabled(true);
+    }
+  };
+
+  ////////////////////////////////////////////
+
   useEffect(() => {
-    mongodbID()
-    getUser();
-    updateUser(mongodId,updateObj)  
-    postData();
-    sendCookie();       
+    if (currentAccount.length > 0) {
+      createAccount();
+    }
+    fetchData(); // to get all user from database
+    updateAccount();
+    updateUI();
+    sendCookies();
     verifyUser();
-  
   }, []);
 
   // const referLink = `https://pepelayer2.com/referral/${token}`;
-  const referLink = `http://localhost:3000/referral/${token}`;
+  const referLink = `http://localhost:3000/refer/${token}`;
 
   return (
     <div className="refer-body">
       <header className="header-el">
-        {currentAccount.length > 0 ? (
-          ""
-        ) : (
-          <button
-            id="connectMetaMaskButton"
-            className="metamask-button"
-            onClick={connectWallet}
-          >
-            Connect MetaMask
-          </button>
-        )}
+        <button
+          id="connectMetaMaskButton"
+          className="metamask-button"
+          onClick={connectWallet}
+        >
+          {currentAccount.length > 0
+            ? `Total Earn: ${totalClaim}`
+            : "Connect With Metamask"}
+        </button>
+
         <div id="walletAddress"></div>
         <div className="container-el">
           <h1 className="">AIRDROP PEPE LAYER2</h1>
@@ -252,7 +249,7 @@ const id = await getMongoIdByAddress(currentAccount)
               </div>
               <div className="total-coins">
                 <h3>
-                  Total Coins: <span id="coin-count">{taskClaimFromDB}</span>
+                  Total Coins: <span id="coin-count">{taskClaim}</span>
                 </h3>
               </div>
             </section>
@@ -296,7 +293,7 @@ const id = await getMongoIdByAddress(currentAccount)
               >
                 Claim Today's Coins
               </button>
-              <p id="coins">Coins Earned: {todayClaimFromDB} PEPE TODAY!</p>
+              <p id="coins">Coins Earned: {dailyClaim} PEPE TODAY!</p>
               {todayClaim ? (
                 <Countdown
                   date={targetDate}
@@ -326,13 +323,13 @@ const id = await getMongoIdByAddress(currentAccount)
           <div className="infoBox">
             <h3>Your Referrals</h3>
             <p>
-              <span id="referralCount">0</span> Friends Referred
+              <span id="referralCount">{referFriend}</span> Friends Referred
             </p>
           </div>
           <div className="infoBox">
             <h3>Earnings From Referrals</h3>
             <p>
-              <span id="referralEarnings">{referId}</span> Pepe Coins Earned
+              <span id="referralEarnings">{referClaim}</span> Pepe Coins Earned
             </p>
           </div>
         </section>

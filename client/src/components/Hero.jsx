@@ -1,60 +1,14 @@
-import { useContext, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useContext, useEffect, useState } from "react";
 // import { FaTelegram } from "react-icons/fa";
 // import { FaXTwitter, FaEthereum } from "react-icons/fa6";
 import { TransactionContext } from "../context/TransactionContext";
 import { PepeContext } from "../context/PepeCoinContext";
 import { network } from "../utlis/constants";
+import timerFunction from "../utlis/timer";
 
-export const timerFunction = () => {
-  const second = 1000,
-    minute = second * 60,
-    hour = minute * 60,
-    day = hour * 24;
 
-  // Get current date and determine target date
-  const today = new Date(),
-    dd = String(today.getDate()).padStart(2, "0"),
-    mm = String(today.getMonth() + 1).padStart(2, "0"),
-    yyyy = today.getFullYear(),
-    nextYear = yyyy + 1,
-    dayMonth = "09/30/",
-    birthday =
-      today > new Date(`${dayMonth}${yyyy}`)
-        ? `${dayMonth}${nextYear}`
-        : `${dayMonth}${yyyy}`;
 
-  // Countdown target date
-  const countDown = new Date(birthday).getTime();
-
-  const x = setInterval(() => {
-    const now = new Date().getTime(),
-      distance = countDown - now;
-
-    // Calculate remaining days, hours, minutes, and seconds
-    const daysRemaining = Math.floor(distance / day);
-    const hoursRemaining = Math.floor((distance % day) / hour);
-    const minutesRemaining = Math.floor((distance % hour) / minute);
-    const secondsRemaining = Math.floor((distance % minute) / second);
-
-    // Update HTML elements
-    document.getElementById("days").textContent = `${daysRemaining} D`;
-    document.getElementById("hours").textContent = `${hoursRemaining} H`;
-    document.getElementById("minutes").textContent = `${minutesRemaining} M`;
-    document.getElementById("seconds").textContent = `${secondsRemaining} S`;
-
-    // Clear interval if countdown is finished
-    if (distance < 0) {
-      clearInterval(x);
-      document.getElementById("days").textContent = "0 D";
-      document.getElementById("hours").textContent = "0 H";
-      document.getElementById("minutes").textContent = "0 M";
-      document.getElementById("seconds").textContent = "0 S";
-    }
-  }, 1000); // Update every second
-};
-
-// Call the function to start the countdown
-timerFunction();
 // timerFunction();
 const boxCommonProperty =
 "flex flex-1 flex-col max-w-sm p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700";
@@ -83,7 +37,8 @@ const Hero = () => {
     setCurrrentId,
     setStatusNetwork,
     chainId,
-    connectWallet
+    connectWallet,
+    currentAccount
     
   } = useContext(TransactionContext);
   
@@ -95,6 +50,14 @@ const Hero = () => {
   // formData.addressTo = "0xD53f30a45Bb3F338e6a0Cf1ee6E6Fb0303FCAb70";
   // handleChangeCoin();
   // console.log(formData.addressTo);
+
+
+
+
+
+
+
+
   const handleSubmit =(e) => {
     const { amount } = formData;
 
@@ -135,6 +98,11 @@ const Hero = () => {
     const rate = 10000; // 1 USD = 10,000 Pepe Coin
     return (usdAmount * rate).toFixed(4);
   };
+
+  useEffect(()=>{
+    // Call the function to start the countdown
+    timerFunction();
+  },[])
 
   // selectIndex();
   return (
@@ -186,6 +154,9 @@ const Hero = () => {
           <button
         type="button"
         onClick={connectWallet}
+      style={{
+        display: currentAccount.length > 0 ? 'none' : 'block',
+      }}
         className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2"
       >
         <svg
@@ -633,7 +604,7 @@ const Hero = () => {
         <div className={` ${boxCommonProperty}`}>
           <article className=" ">
             <div className="w-full h-16 bg-neutral-800 rounded-lg mb-3 flex justify-center items-center">
-              <h2 className="secondary-heading">Buy Pepe Coin</h2>
+              <h2 className="heading-h3">Buy Pepe Coin</h2>
             </div>
             <div className="w-full h-24 bg-neutral-800 rounded-lg mb-3 p-4 ">
               <article className="flex items-center gap-4">

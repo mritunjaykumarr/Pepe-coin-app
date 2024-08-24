@@ -1,103 +1,54 @@
-const LOCALHOST = "mongodb+srv://DAVIDPIYUSH:Piyush251@cluster0.gmc88id.mongodb.net/"
+import axios from "axios";
 
-export const getMongoIdByAddress = async (ethereumAddress) => {
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
+// console.log(apiUrl, "this from apiurl");
+
+export const fetchData = async () => {
   try {
-    const response = await fetch(`${LOCALHOST}get-id-by-address/${ethereumAddress}`);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    console.log(data.data._id, "this is coming from line 14");
-    return data.data._id;
+    await axios.get(`${apiUrl}/`);
+    // console.log(response.data, "this from fetchData");
   } catch (error) {
-    console.error("Error fetching MongoDB _id:", error);
-    throw error;
+    console.error("Error fetching data:", error);
   }
 };
 
-export const fetchDataAndSend = async (data) => {
+export const fetchDataUser = async (ethereumId) => {
   try {
-    const { ethereumId } = data; // Extract ethereumId from data
-
-    // Check if the user already exists
-    const userResponse = await fetch(`${LOCALHOST}user/${ethereumId}`);
-    if (userResponse.ok) {
-      console.log("User already exists. No need to post data.");
-      return; // Exit the function if user already exists
-    }
-
-    // Post the data if user does not exist
-    const postResponse = await fetch(`${LOCALHOST}create`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!postResponse.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    console.log("You have been added to the system!");
+    return await axios.get(`${apiUrl}/user/${ethereumId}`);
+    // console.log(res.data.data.user,"this from fetchDataUser")
   } catch (error) {
-    if (error.message.includes('404')) {
-      // Handle case where user is not found
-      try {
-        const postResponse = await fetch(`${LOCALHOST}create`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
+    console.error("Error Fetching data from user :", error);
+  }
+};
 
-        if (!postResponse.ok) {
-          throw new Error('Network response was not ok');
-        }
+export const postDataFromUser = async (data) => {
+  try {
+    return await axios.post(`${apiUrl}/create`, data);
+  } catch (error) {
+    console.error("Error while creating user", error);
+  }
+};
 
-        console.log("You have been added to the system!");
-      } catch (postError) {
-        console.error('Error sending data:', postError);
-      }
+export const updateUserData = async (ethereumId, data) => {
+  try {
+    await axios.put(`${apiUrl}/user/update/${ethereumId}`, data);
+  } catch (error) {
+    console.error("Error while updating user", error);
+  }
+};
+
+export const handleClick = async (ethereumId) => {
+  try {
+    const response = await axios.post(`${apiUrl}/button-click`, { ethereumId });
+    return { success: true, message: response.data.message };
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      return { success: false, message: error.response.data.message };
     } else {
-      console.error('Error checking user or sending data:', error);
+      console.error("An error occurred:", error);
+      return { success: false, message: "An unexpected error occurred" };
     }
   }
 };
-
-export const getUserById = async (id) => {
-  try {
-    const response = await fetch(`${LOCALHOST}user/${id}`); // Assuming the endpoint is `/user/:id`
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Can't find user based on ID:", error);
-    throw error;
-  }
-};
-
-export const updateUser = async (id, updateData) => {
-  try {
-    const response = await fetch(`${LOCALHOST}update/user/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updateData),
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await response.json();
-    console.log('User updated:', data);
-  } catch (error) {
-    console.error("Error updating user with ID:", error.message);
-  }
-};
-

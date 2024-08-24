@@ -1,129 +1,58 @@
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Routes,
-//   useLocation,
-// } from "react-router-dom";
-// import "./App.css";
-// import { Index, Refer } from "./components/exportFile";
-// import Navbar from "./components/Navbar.jsx";
-// import Hero from "./components/Hero.jsx";
-// import Services from "./components/Services.jsx";
-
-// const Layout = ({ children }) => {
-//   const location = useLocation();
-//   const pepe = location.pathname === "/pepe"; // Check if current route is `/pepe`
-
-//   return (
-//     <div>
-//       {pepe && (
-//         <>
-//           <Navbar />
-//           <Hero />
-//           <Services />
-//         </>
-//       )}
-//       {children}
-//     </div>
-//   );
-// };
-
-// const App = () => {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route
-//           path="/"
-//           element={
-//             <Layout>
-//               <Index />
-//             </Layout>
-//           }
-//         />
-//         <Route
-//           path="/refer"
-//           element={
-//             <Layout>
-//               <Refer />
-//             </Layout>
-//           }
-//         />
-//         <Route
-//           path="/pepe"
-//           element={
-//             <Layout>
-             
-//             </Layout>
-//           }
-//         />
-//       </Routes>
-//     </Router>
-//   );
-// };
-
-// export default App;
-
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./App.css";
-// import { Index, Refer } from "./components/exportFile";
-import Index from "./components/Index.jsx"
-import Refer from "./components/Refer.jsx"
-import  Navbar  from "./components/Navbar.jsx";
-import Hero  from "./components/Hero.jsx";
+import {useState,useEffect}from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ErrorBoundary from './ErrorBoundary'; // Adjust path as necessary
+import Layout from "./Layout.jsx"; // Import the Layout component
+import Index from "./components/Index.jsx"; // Import the Index component
+import Refer from "./components/Refer.jsx"; // Import the Refer component
+import Navbar from "./components/Navbar.jsx"; // Import the Navbar component
+import Hero from "./components/Hero.jsx"; // Import the Hero component
+import Spinner from './components/Spinner.jsx'; // Import the Spinner component
 
 const App = () => {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading process, e.g., fetching data or initializing
+    const timer = setTimeout(() => {
+      setLoading(false); // Set loading to false after 3 seconds
+    }, 1000);
+
+    return () => clearTimeout(timer); // Clean up timer on component unmount
+  }, []);
   return (
     <Router>
-      {/* <Navbar />
-      <Hero /> */}
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/refer" element={<Refer />} />
-        <Route path="/pepe" element= {<><Navbar /><Hero /></>} />
-      </Routes>
-      {/* <Services />
-      <Transactions />
-      <Footer /> */}
+      <ErrorBoundary>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Index />} />
+              <Route
+                path="/refer"
+                element={
+                  <>
+                    <Navbar />
+                    <Refer />
+                  </>
+                }
+              />
+              <Route
+                path="/pepe"
+                element={
+                  <>
+                    <Navbar />
+                    <Hero />
+                  </>
+                }
+              />
+            </Route>
+          </Routes>
+        )}
+      </ErrorBoundary>
     </Router>
   );
 };
 
 export default App;
-
-// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// import "./App.css";
-// import {
-//   Navbar,
-//   Hero,
-//   Services,
-//   Transactions,
-//   Footer,
-//   Index,
-//   Refer,
-// } from "./components/exportFile";
-// import {Index} from "./components/Index"
-// const App = () => {
-//   return (
-//     // <div className="min-h-screen">
-//     //   {/* <Index /> */}
-//     //   <Refer />
-//     //   {/* <div>
-//     //     <Navbar />
-//     //     <Hero />
-//     //   </div> */}
-
-//     //   {/* <Services />
-//     //   <Transactions />
-//     //   <Footer /> */}
-//     // </div>
-
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={Index} />
-//         <Route path="/about" element={Refer} />
-//       </Routes>
-//     </Router>
-//   );
-// };
-
-// export default App;
