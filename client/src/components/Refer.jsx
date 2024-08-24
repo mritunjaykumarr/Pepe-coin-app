@@ -176,8 +176,9 @@ const Refer = () => {
     verifyUser();
   }, []);
 
+  const baseUrl = window.location.origin;
   // const referLink = `https://pepelayer2.com/referral/${token}`;
-  const referLink = `http://localhost:3000/refer/${token}`;
+  const referLink = `${baseUrl}/refer/${token}`;
 
   return (
     <div className="refer-body">

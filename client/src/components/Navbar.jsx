@@ -162,22 +162,17 @@ const Navbar = () => {
       <ul className="main-nav-list">
         <li>
           <Link to="/" className="main-nav-link active">
-            Hopenomics{" "}
+            Home
           </Link>
         </li>
         <li>
-          <a href="#roadmap" className="main-nav-link">
+          <a href="/" className="main-nav-link">
             Roadmap
           </a>
         </li>
         <li>
-          <a href="#how" className="main-nav-link">
+          <a href="/" className="main-nav-link">
             How to Buy
-          </a>
-        </li>
-        <li>
-          <a href="#connect-wallet" className="main-nav-link">
-            Referral Programme
           </a>
         </li>
       </ul>
