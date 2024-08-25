@@ -41,16 +41,11 @@ export const updateUserData = async (ethereumId, data) => {
   }
 };
 
-export const handleClick = async (ethereumId) => {
+export const fetchUserByReferId = async( referralCode)=>{
   try {
-    const response = await axios.post(`${apiUrl}/button-click`, { ethereumId });
-    return { success: true, message: response.data.message };
+    return await axios.get(`${apiUrl}/refer/code/${referralCode}`)
+    
   } catch (error) {
-    if (error.response && error.response.status === 400) {
-      return { success: false, message: error.response.data.message };
-    } else {
-      console.error("An error occurred:", error);
-      return { success: false, message: "An unexpected error occurred" };
-    }
+    console.log("Error while fetching user based on referralCode",error)
   }
-};
+}

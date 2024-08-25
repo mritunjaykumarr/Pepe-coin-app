@@ -1,9 +1,10 @@
 import {
   fetchData,
   fetchDataUser,
-  handleClick,
+  // handleClick,
   postDataFromUser,
   updateUserData,
+  fetchUserByReferId,
 } from "../utlis/api.js";
 import earnPepe from "../image/refers/earnPepe.mp4";
 import refer from "../image/refers/refer.png";
@@ -12,12 +13,12 @@ import reward from "../image/refers/pepe-get-rewards.mp4";
 import generateRandomToken from "../utlis/tokenGenerator";
 import { TransactionContext } from "../context/TransactionContext";
 import { ReferContext } from "../context/RefersContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useMemo } from "react";
 import "../style/refer.css";
-import startTimer from "../utlis/countDown.jsx";
-import Countdown from "react-countdown";
+// import startTimer from "../utlis/countDown.jsx";
 import VisitedLink from "./VisitedLink.jsx";
 import { useCookies } from "react-cookie";
+import TimerComponent from "../utlis/countDown.jsx";
 
 const targetDate = Date.now() + 24 * 60 * 60 * 1000;
 const randomCode = generateRandomToken();
@@ -42,25 +43,31 @@ const Refer = () => {
   const { currentAccount, connectWallet } = useContext(TransactionContext);
   const { taskMoney } = useContext(ReferContext);
 
-  const sendCookies = () => {
-    try {
-      const referralCode = token; // Replace with the actual referral code
-      const expires = new Date();
-      expires.setDate(expires.getDate() + 1); // Set expiration to 1 day
-
-      setCookie("referralCode", referralCode, { path: "/", expires });
-    } catch (error) {
-      console.log("ERROR WHILE STORING COOKIE", error);
+  //////////////////////// cookie verify
+  function getCookie(name) {
+    const nameEQ = `${name}=`;
+    const ca = document.cookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === " ") c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
-  };
+    return null;
+  }
 
-  // console.log(cookies)
-  // TO RETRIVE COOKIE FROM USER'S
-  const verifyUser = () => {
+  const cookieValue = getCookie("referralCode");
+  // console.log(cookieValue);
+
+  const verifyUser = async () => {
     try {
-      const referralCodes = cookies.referralCode;
-
-      if (referralCodes === token && currentAccount !== ethereumAccount) {
+      const { data } = await fetchUserByReferId(cookieValue);
+      const userData = data.data.user;
+      // console.log(userData);
+      if (
+        cookieValue === userData.referralCode &&
+        currentAccount !== userData.ethereumId &&
+        currentAccount.length > 0
+      ) {
         setReferId(currentAccount);
         setReferAmount(100);
         console.log("VERIFIED USER 👌👌👌👌👌");
@@ -69,6 +76,19 @@ const Refer = () => {
       console.log("NOT VERIFIED USER'S", error);
     }
   };
+  useCookies(() => {
+    verifyUser();
+  }, []);
+
+  const handleClaim = async () => {
+    localStorage.setItem("todayClaim", 100);
+    setTodayClaim(100);
+    // console.log("giving 100 pepe!");
+  };
+
+  const claimToday = localStorage.getItem("todayClaim");
+
+  // console.log(claimToday); // This will log "100"
 
   const copyToClipboard = async () => {
     try {
@@ -81,57 +101,80 @@ const Refer = () => {
   };
   // console.log(ethereumAccount == currentAccount)
   // create account based on these data
-  const postObj = {
-    ethereumId: currentAccount,
-    totalBalance: 0,
-    referralCode: randomCode,
-    todayClaim: 0,
-    totalEarnDay: 0,
-    referEarn: 0,
-    referredUser: [],
-  };
 
+  const postObj = useMemo(() => {
+    return {
+      ethereumId: currentAccount,
+      totalBalance: 0,
+      referralCode: randomCode,
+      todayClaim: 0,
+      totalEarnDay: 0,
+      referEarn: 0,
+      referredUser: [],
+    };
+  }, [currentAccount]);
   // for updating the user account balance
 
-  const updatedObj = {
-    todayClaim: todayClaim,
-    totalEarnDay: taskMoney,
-    referEarn: referAmount,
-    referredUsers: [
-      {
-        ethereumId: referId,
-        status: referId.length > 0 ? "sucess" : "pending",
-        referTime: new Date(),
-      },
-    ],
-  };
+  const updatedObj = useMemo(() => {
+    return {
+      todayClaim: todayClaim,
+      totalEarnDay: taskMoney,
+      referEarn: referAmount,
+      referredUsers: [
+        {
+          ethereumId: referId,
+          status: referId.length > 0 ? "success" : "pending",
+          referTime: new Date(),
+        },
+      ],
+    };
+  }, [todayClaim, taskMoney, referAmount, referId]); // Dependencies
 
-  // console.log({...updatedObj})
+  // console.log()
+
+  // console.log(updatedObj);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateUI = async () => {
     try {
       if (currentAccount.length === 0) return;
 
-      const { data } = await fetchDataUser(currentAccount); // to find user on their ethereum address
+      const { data } = await fetchDataUser(currentAccount); // to find user on their Ethereum address
       const setVariable = data.data.user;
-      console.log(setVariable)
-      // setting the value of claim variable
-      setDailyClaim(setVariable.todayClaim);
-      setTaskClaim(setVariable.totalEarnDay);
-      setReferClaim(setVariable.referEarn);
-      setTotalCalim(setVariable.totalBalance);
-      setToken(setVariable.referralCode);
-      setReferFriend(setVariable.referredUsers.length);
-      setEthereumAcount(setVariable.ethereumId);
+
+      // console.log(setVariable);
+
+      // Only update the state if the data has changed
+      if (setVariable) {
+        if (setVariable.todayClaim !== dailyClaim) {
+          setDailyClaim(setVariable.todayClaim);
+        }
+        if (setVariable.totalEarnDay !== taskClaim) {
+          setTaskClaim(setVariable.totalEarnDay);
+        }
+        if (setVariable.referEarn !== referClaim) {
+          setReferClaim(setVariable.referEarn);
+        }
+        if (setVariable.totalBalance !== totalClaimBal) {
+          setTotalCalim(setVariable.totalBalance);
+        }
+        if (setVariable.referralCode !== token) {
+          setToken(setVariable.referralCode);
+        }
+        if (setVariable.referredUsers.length !== referFriend) {
+          setReferFriend(setVariable.referredUsers.length);
+        }
+        if (setVariable.ethereumId !== ethereumAccount) {
+          setEthereumAcount(setVariable.ethereumId);
+        }
+      }
     } catch (error) {
-      throw new Error(
-        "can't find the user on your currentAcount adress",
+      console.error(
+        "Can't find the user on your currentAccount address",
         error
       );
     }
   };
-  useEffect(()=>{updateUI()},[updatedObj,taskClaim])
 
   const createAccount = async () => {
     if (currentAccount === ethereumAccount) return;
@@ -142,40 +185,54 @@ const Refer = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateAccount = async () => {
     try {
-      if (ethereumAccount === currentAccount) {
-        await updateUserData(currentAccount, updatedObj);
-        console.log(currentAccount, updatedObj);
+      // Only proceed if the ethereumAccount matches the currentAccount
+      if (ethereumAccount === currentAccount && currentAccount.length > 0) {
+        // Fetch the current user data from the database
+        const { data } = await fetchDataUser(currentAccount);
+        const currentData = data.data.user;
+
+        // Check if the data has changed
+        const isDataChanged =
+          currentData.todayClaim !== updatedObj.todayClaim ||
+          currentData.totalEarnDay !== updatedObj.totalEarnDay ||
+          currentData.referEarn !== updatedObj.referEarn ||
+          JSON.stringify(currentData.referredUsers) !==
+            JSON.stringify(updatedObj.referredUsers);
+
+        if (isDataChanged) {
+          // If data has changed, update the user data
+          await updateUserData(currentAccount, updatedObj);
+          console.log("UPDATE SUCCESSFUL!");
+        } else {
+          console.log("No changes detected, no update necessary.");
+        }
       }
     } catch (error) {
-      throw new Error("UNABLE TO UPDATING ACCOUNT!", error);
+      console.error("UNABLE TO UPDATE ACCOUNT!", error);
     }
   };
 
   useEffect(() => {
     updateAccount();
-  }, [updatedObj,taskClaim]);
-
+  }, [taskClaim, updateAccount, todayClaim, claimToday]);
 
   /////////////////////////////////////////////////////////////
   // HANDLEING THE CLAIM FUNCTION
 
-  const handleClaim = async () => {
-    const result = await handleClick(currentAccount);
-    // alert(result.message);
-    setTodayClaim(100);
-    if (result.success) {
-      setIsDisabled(true);
-    }
-  };
+  // console.log(dailyClaim, "this from line 195");
   // console.log(totalClaimBal,"this from line 166")
 
   ////////////////////////////////////////////
 
   useEffect(() => {
     fetchData(); // to get all user from database
-    sendCookies();
-    verifyUser();
+    // sendCookies();
+    // verifyUser();
   }, [currentAccount]);
+
+  useEffect(() => {
+    updateUI();
+  }, [updatedObj, taskClaim, todayClaim, updateUI]);
 
   const baseUrl = window.location.origin;
   // const referLink = `https://pepelayer2.com/referral/${token}`;
@@ -287,7 +344,7 @@ const Refer = () => {
               {ethereumAccount.length > 0 ? (
                 <p>
                   <h2 className="h2">Daily Challenge</h2>
-                  <p id="challenge">Complete today's task</p>
+                  <p id="challenge">Complete today&apos;s task</p>
                 </p>
               ) : (
                 ""
@@ -295,7 +352,9 @@ const Refer = () => {
 
               <button
                 id="claimButton button"
-                disabled={todayClaim > 0 ? true : false}
+                disabled={
+                  claimToday > 0 && currentAccount.length > 0 ? true : false
+                }
                 onClick={
                   ethereumAccount.length > 0 ? handleClaim : createAccount
                 }
@@ -305,17 +364,13 @@ const Refer = () => {
                   : "Create Refer Account"}
               </button>
               {ethereumAccount.length > 0 ? (
-                <p id="coins">Coins Earned: {dailyClaim} PEPE TODAY!</p>
+                <p id="coins">Coins Earned: {claimToday} PEPE TODAY!</p>
               ) : (
                 " "
               )}
 
-              {todayClaim ? (
-                <Countdown
-                  date={targetDate}
-                  renderer={startTimer}
-                  className="timer"
-                />
+              {claimToday > 0 && currentAccount.length > 0 ? (
+                <TimerComponent className="timer" />
               ) : (
                 ""
               )}

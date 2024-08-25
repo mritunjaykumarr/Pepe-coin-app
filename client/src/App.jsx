@@ -1,18 +1,17 @@
-import {useState,useEffect}from "react";
+import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import ErrorBoundary from './ErrorBoundary'; // Adjust path as necessary
+import ErrorBoundary from "./ErrorBoundary"; // Adjust path as necessary
 import Layout from "./Layout.jsx"; // Import the Layout component
 import Index from "./components/Index.jsx"; // Import the Index component
 import Refer from "./components/Refer.jsx"; // Import the Refer component
 import Navbar from "./components/Navbar.jsx"; // Import the Navbar component
 import Hero from "./components/Hero.jsx"; // Import the Hero component
-import Spinner from './components/Spinner.jsx'; // Import the Spinner component
-
+import Spinner from "./components/Spinner.jsx"; // Import the Spinner component
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -34,7 +33,15 @@ const App = () => {
         ) : (
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route path="/refer/:id" element={<Index/>} />
+              <Route
+                path="/refer/:id"
+                element={
+                  <>
+                    <Navbar />
+                    <Refer />
+                  </>
+                }
+              />
               <Route index element={<Index />} />
               <Route
                 path="/refers"

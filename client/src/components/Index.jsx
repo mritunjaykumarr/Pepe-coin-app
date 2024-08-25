@@ -28,8 +28,10 @@ import cointelegraph from "../image/Feature-img/cointelegraph.svg"
 import cryptonews from "../image/Feature-img/cryptonews.svg"
 import techopedia from "../image/Feature-img/techopedia.svg"
 
-
 const Index = () => {
+
+
+
   return (
     <div>
       <header className="header">
