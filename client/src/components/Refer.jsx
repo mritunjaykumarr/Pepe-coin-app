@@ -26,9 +26,6 @@ const Refer = () => {
   const [token, setToken] = useState([0]);
   const [todayClaim, setTodayClaim] = useState(0);
 
-  const [referDataList, setReferDataList] = useState([]);
-  const [referDataTotal, setReferDataTotal] = useState(0);
-
   const [cookies, setCookie] = useCookies(["referralCode"]);
   const [referId, setReferId] = useState("");
 
@@ -98,6 +95,7 @@ const Refer = () => {
   // for updating the user account balance
 
   const updatedObj = {
+    totalBalance:(todayClaim+taskMoney+referAmount),
     todayClaim: todayClaim,
     totalEarnDay: taskMoney,
     referEarn: referAmount,
@@ -110,7 +108,7 @@ const Refer = () => {
     ],
   };
 
-  // console.log(...updatedObj)
+  // console.log({...updatedObj})
 
   const updateUI = async () => {
     try {
@@ -143,7 +141,7 @@ const Refer = () => {
   const updateAccount = async () => {
     try {
       if (ethereumAccount === currentAccount) {
-        await updateUserData(currentAccount, updatedObj);
+        await updateUserData(currentAccount, {...updatedObj});
         console.log(currentAccount,updatedObj)
       }
     } catch (error) {
@@ -162,7 +160,7 @@ const Refer = () => {
       setIsDisabled(true);
     }
   };
-  console.log(totalClaimBal,"this from line 166")
+  // console.log(totalClaimBal,"this from line 166")
 
   ////////////////////////////////////////////
 
