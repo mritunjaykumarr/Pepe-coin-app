@@ -1,1 +1,4 @@
-{ "solidity.compileUsingRemoteVersion": "v0.8.0+commit.c7dfd" }
+{
+  "solidity.compileUsingRemoteVersion": "v0.8.0+commit.c7dfd",
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
+}
