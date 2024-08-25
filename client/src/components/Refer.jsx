@@ -70,7 +70,6 @@ const Refer = () => {
     }
   };
 
-
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(referLink);
@@ -95,7 +94,6 @@ const Refer = () => {
   // for updating the user account balance
 
   const updatedObj = {
-    totalBalance:(todayClaim+taskMoney+referAmount),
     todayClaim: todayClaim,
     totalEarnDay: taskMoney,
     referEarn: referAmount,
@@ -110,12 +108,14 @@ const Refer = () => {
 
   // console.log({...updatedObj})
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateUI = async () => {
     try {
       if (currentAccount.length === 0) return;
 
       const { data } = await fetchDataUser(currentAccount); // to find user on their ethereum address
       const setVariable = data.data.user;
+      console.log(setVariable)
       // setting the value of claim variable
       setDailyClaim(setVariable.todayClaim);
       setTaskClaim(setVariable.totalEarnDay);
@@ -131,6 +131,7 @@ const Refer = () => {
       );
     }
   };
+  useEffect(()=>{updateUI()},[updatedObj,taskClaim])
 
   const createAccount = async () => {
     if (currentAccount === ethereumAccount) return;
@@ -138,16 +139,22 @@ const Refer = () => {
       await postDataFromUser(postObj);
     }
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateAccount = async () => {
     try {
       if (ethereumAccount === currentAccount) {
-        await updateUserData(currentAccount, {...updatedObj});
-        console.log(currentAccount,updatedObj)
+        await updateUserData(currentAccount, updatedObj);
+        console.log(currentAccount, updatedObj);
       }
     } catch (error) {
       throw new Error("UNABLE TO UPDATING ACCOUNT!", error);
     }
   };
+
+  useEffect(() => {
+    updateAccount();
+  }, [updatedObj,taskClaim]);
+
 
   /////////////////////////////////////////////////////////////
   // HANDLEING THE CLAIM FUNCTION
@@ -166,11 +173,9 @@ const Refer = () => {
 
   useEffect(() => {
     fetchData(); // to get all user from database
-    updateAccount();
-    updateUI();
     sendCookies();
     verifyUser();
-  }, []);
+  }, [currentAccount]);
 
   const baseUrl = window.location.origin;
   // const referLink = `https://pepelayer2.com/referral/${token}`;
@@ -218,9 +223,7 @@ const Refer = () => {
                     title={"Join our Telegram group"}
                     value={10}
                   />
-                  {/* <a href="https://telegram.org/" className="task-button" data-reward={20}>
-            Join our Telegram group
-          </a> */}
+
                   <span className="reward">+20 Coins</span>
                 </div>
                 <div className="task">
@@ -271,30 +274,42 @@ const Refer = () => {
         </section>
         <section className="section-el">
           <div className="container-el">
-            <div className="bubble bubble1" />
-            <div className="bubble bubble2" />
-            <div className="bubble bubble3" />
-            <div className="bubble bubble4" />
-            <div className="bubble bubble5" />
-            <div className="bubble bubble6" />
-            <div className="bubble bubble7" />
-            <div className="bubble bubble8" />
-            <div className="bubble bubble9" />
+            <div className="bubble bubble1"></div>
+            <div className="bubble bubble2"></div>
+            <div className="bubble bubble3"></div>
+            <div className="bubble bubble4"></div>
+            <div className="bubble bubble5"></div>
+            <div className="bubble bubble6"></div>
+            <div className="bubble bubble7"></div>
+            <div className="bubble bubble8"></div>
+            <div className="bubble bubble9"></div>
             <div className="challenge-box">
-              {
-                ethereumAccount.length> 0 ?
-              <><h2 className="h2">Daily Challenge</h2><p id="challenge">Complete today's task</p></> : ""}
+              {ethereumAccount.length > 0 ? (
+                <p>
+                  <h2 className="h2">Daily Challenge</h2>
+                  <p id="challenge">Complete today's task</p>
+                </p>
+              ) : (
+                ""
+              )}
+
               <button
                 id="claimButton button"
                 disabled={todayClaim > 0 ? true : false}
-                onClick={ethereumAccount.length> 0 ? handleClaim : createAccount}
+                onClick={
+                  ethereumAccount.length > 0 ? handleClaim : createAccount
+                }
               >
                 {ethereumAccount.length > 0
                   ? "Claim Today's Coins"
                   : "Create Refer Account"}
               </button>
-              {ethereumAccount.length>0? <p id="coins">Coins Earned: {dailyClaim} PEPE TODAY!</p> : " "}
-             
+              {ethereumAccount.length > 0 ? (
+                <p id="coins">Coins Earned: {dailyClaim} PEPE TODAY!</p>
+              ) : (
+                " "
+              )}
+
               {todayClaim ? (
                 <Countdown
                   date={targetDate}
@@ -344,18 +359,15 @@ const Refer = () => {
                 className="step-image"
                 loop
               />
-              {/* <img src="/Referral/img/pepe-refer-animation.mp4" alt="Invite Friends" class="step-image"> */}
               <h3>Invite Friends</h3>
               <p>Invite your friends using your unique referral link.</p>
             </div>
             <div className="step">
               <video src={earnPepe} autoPlay className="step-image" loop />
-              {/* <img src="/Referral/img/man-paying-online-receiving-cashback-wallet.png" alt="Earn Coins" class="step-image"> */}
               <h3>Earn Coins</h3>
               <p>Your friends sign up and buy Pepe Coins.</p>
             </div>
             <div className="step">
-              {/* <img src="/Referral/img/Send gift-bro.svg" alt="Get Rewards" class="step-images"> */}
               <video src={reward} autoPlay className="step-image" loop />
               <h3>Get Rewards</h3>
               <p>You earn a percentage of their purchases as Pepe Coins.</p>

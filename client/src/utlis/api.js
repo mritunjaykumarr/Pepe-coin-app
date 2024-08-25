@@ -24,7 +24,7 @@ export const fetchDataUser = async (ethereumId) => {
 
 export const postDataFromUser = async (data) => {
   try {
-    // console.log(data, "this from line 28");
+    console.log(data, "this from line 28");
     await axios.post(`${apiUrl}/create`, data);
   } catch (error) {
     console.error("Error while creating user", error);
@@ -33,7 +33,7 @@ export const postDataFromUser = async (data) => {
 
 export const updateUserData = async (ethereumId, data) => {
   try {
-    // console.log(ethereumId, data);
+    console.log(ethereumId, data);
     await axios.put(`${apiUrl}/user/update/${ethereumId}`, data);
 
   } catch (error) {

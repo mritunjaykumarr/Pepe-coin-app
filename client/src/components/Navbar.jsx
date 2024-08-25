@@ -1,20 +1,17 @@
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-/* eslint-disable no-unused-vars */
-// import React from "react";
 import { TransactionContext } from "../context/TransactionContext";
-// import { FaEthereum } from "react-icons/fa6";
-// import { MdKeyboardArrowUp } from "react-icons/md";
-// eslint-disable-next-line no-unused-vars
 import logo from "../assets/img/logo.png";
 import ethereum from "../assets/img/ethereum.svg";
 import bnb from "../assets/img/bnb.svg";
 import base from "../assets/img/base.svg";
 import arbitrum from "../assets/img/arbitrum.svg";
-import { useContext } from "react";
 import { shortenAddress } from "../utlis/shortenAddress";
 
 const Navbar = () => {
-  // const [toggleMenu, setToggleMenu] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNetworkModalOpen, setIsNetworkModalOpen] = useState(false);
+
   const {
     currentAccount,
     getBalances,
@@ -27,127 +24,75 @@ const Navbar = () => {
     switchNetwork,
   } = useContext(TransactionContext);
 
-  // console.log(statusNetwork, "THIS FROM LINE 26");
-
-  const fetchBalance = async () => {
-    const balance = await weiBalance.toString();
-    console.log(weiBalance);
-    // console.log(balance);
-    const symbol = chainId === "0x38" ? "BNB" : "ETH";
-    if (balance) {
-      document.getElementById("balance_display").textContent =
-        0 + balance.slice(1, 4) + " " + symbol;
-
-      document.getElementById("account-balance").textContent =
-        balance + " " + symbol;
-    }
-  };
-
-  fetchBalance();
-  const modalWindowEl = document.getElementById("model-menu");
-  const overlay = document.querySelector(".overlay");
-  // eslint-disable-next-line no-unused-vars
-  const overlayWindow = document.querySelector(".overlay-window");
-
-  const openModal = function () {
-    modalWindowEl.classList.remove("hidden");
-    overlay.classList.remove("hidden");
-  };
-  const switchModel = () => {
-    document.getElementById("switch-network").classList.remove("hidden");
-    overlayWindow.classList.remove("hidden");
-    // span.addEventListener("click", closeModal);
-  };
-  const closeSwitch = () => {
-    document.getElementById("switch-network").classList.add("hidden");
-    overlayWindow.classList.add("hidden");
-
-    overlayWindow.addEventListener("click", (e) => {
-      if (e.target === overlayWindow) {
-        overlayWindow.classList.add("hidden");
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const balance = await weiBalance.toString();
+      const symbol = chainId === "0x38" ? "BNB" : "ETH";
+      if (balance) {
+        document.getElementById("balance_display").textContent =
+          0 + balance.slice(1, 4) + " " + symbol;
+        document.getElementById("account-balance").textContent =
+          balance + " " + symbol;
       }
-    });
-    // span.addEventListener("click", closeModal);
-  };
+    };
 
-  const closeModal = function () {
-    modalWindowEl.classList.add("hidden");
-    overlay.classList.add("hidden");
+    fetchBalance();
+  }, [weiBalance, chainId]);
 
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) {
-        overlay.classList.add("hidden");
-      }
-    });
-  };
-
-  // overlay.addEventListener("click", (event) => {
-  //   if (event.target === overlay) {
-  //     // closeModal();
-  //     // closeModal()
-  //   }
-  // });
   const buttonsData = [
     {
       userId: "0x1",
       className: "network-btn mb-3",
       label: "Ethereum",
-      img: `${ethereum}`,
+      img: ethereum,
       id: 1,
     },
     {
       userId: "0x38",
       className: "network-btn mb-3",
       label: "Binance Smart Chain",
-      img: `${bnb}`,
+      img: bnb,
       id: 2,
     },
     {
       userId: "0x2105",
       className: "network-btn mb-3",
       label: "Base",
-      img: `${base}`,
+      img: base,
       id: 3,
     },
     {
       userId: "0xA4B1",
       className: "network-btn mb-3",
       label: "Arbitrum One",
-      img: `${arbitrum}`,
+      img: arbitrum,
       id: 4,
     },
   ];
 
   const handleChainChangeClick = async (event) => {
     const userId = event.currentTarget.dataset.userId;
-    // console.log(userId, "THIS FORM 😊😊😊😊😊");
     setCurrrentId(userId);
-
     await switchNetwork();
-    closeSwitch();
+    setIsNetworkModalOpen(false);
   };
-
-  // console.log(chainId,'THIS FROM 125 LINE')
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(currentAccount);
-      // console.log("Text copied to clipboard");
     } catch (err) {
-      // console.error("Failed to copy text: ", err);
-      throw new Error("FAILED TO COPY ADDRESSS.PLEASE TRY AGAIN");
+      console.error("Failed to copy text: ", err);
     }
   };
 
-  // {chainId === button.userId && chainId === statusNetwork
-  //   ? "Active"
-  // : ""}
-
-  const activeShow = async (button) => {
-    if (chainId === button.userId && button.userId === statusNetwork) {
-      document.getElementById("active-status").textContent = "Active";
-    }
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
+
+  const toggleNetworkModal = () => {
+    setIsNetworkModalOpen(!isNetworkModalOpen);
+  };
+
   return (
     <nav className="header">
       <div className="">
@@ -155,9 +100,6 @@ const Navbar = () => {
           <img src={logo} alt="logo" className="logo" />{" "}
           <span>PEPE LAYER 2</span>
         </Link>
-        {/* <a href="/home" className="logo-link ">
-          <img src={logo} alt="logo" className="logo " /> Pepe Layer 2
-        </a> */}
       </div>
       <ul className="main-nav-list">
         <li>
@@ -180,28 +122,19 @@ const Navbar = () => {
         <div className="flex gap-4">
           <div
             className="grident-btn rounded-lg w-13 flex items-center"
-            onClick={switchModel}
+            onClick={toggleNetworkModal}
           >
             <span className="flex items-center justify-center gap-2">
-              {buttonsData.map((data, i) =>
+              {buttonsData.map((data) =>
                 chainId === data.userId ? (
                   <img
                     src={data.img}
-                    alt={data.img}
+                    alt={data.label}
                     className="w-6 h-6"
-                    key={data + i}
+                    key={data.id}
                   />
-                ) : (
-                  ""
-                )
+                ) : null
               )}
-              {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 320 512"
-              className="icons w-6 h-6 fill-orange-600"
-            >
-              <path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z" />
-            </svg> */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
@@ -212,8 +145,8 @@ const Navbar = () => {
             </span>
           </div>
           <article
-            className="btn-box grident-btn cursor-pointer "
-            onClick={openModal}
+            className="btn-box grident-btn cursor-pointer"
+            onClick={toggleModal}
           >
             <p className="pl-4 text-white text-sm" id="balance_display"></p>
             <button className="btn-div">
@@ -233,120 +166,128 @@ const Navbar = () => {
             </button>
           </article>
         </div>
-      ) : (
-        " "
+      ) : null}
+
+      {isModalOpen && (
+        <div className="overlay">
+          <section className="section-pop" id="model-menu">
+            <div className="pop-menu">
+              <div className="pop-header w-full flex justify-end">
+                <p id="close" onClick={toggleModal}>
+                  <ion-icon
+                    name="close-outline"
+                    className="pop-icon text-right"
+                  ></ion-icon>
+                </p>
+              </div>
+              <ul className="pop-list-menu">
+                <li className="">
+                  <ul className="pop-list">
+                    <li className="flex items-center gap-3 text-white flex-col">
+                      <img src={logo} alt="" className="icon-img" />
+                      <p className="heading-5">
+                        {shortenAddress(currentAccount)}
+                      </p>
+                      <p className="heading-5" id="account-balance">
+                        0 Eth
+                      </p>
+                    </li>
+                    <li className="grid gap-4 grid-cols-2 grid-flow-row">
+                      <p
+                        className="mt-2 gap-4 mb-4 rounded-lg bg-[#2d2e33] p-4 text-center cursor-pointer"
+                        onClick={copyToClipboard}
+                      >
+                        <ion-icon
+                          name="copy-outline"
+                          className="w-6 h-6 my-2"
+                        ></ion-icon>
+                        <br />
+                        <span className="para-level-3">Copy Address</span>
+                      </p>
+                      <p
+                        className="mt-2 gap-4 mb-4 rounded-lg bg-[#2d2e33] p-4 text-center cursor-pointer"
+                        onClick={getLogout}
+                      >
+                        <ion-icon
+                          name="exit-outline"
+                          className="w-6 h-6 my-2"
+                        ></ion-icon>
+                        <br />
+                        <span className="para-level-3">Disconnect</span>
+                      </p>
+                    </li>
+                  </ul>
+                </li>
+                <li className="">
+                  <ul className="pop-list">
+                    <li className="w-full text-left">
+                      <span className="heading-5">
+                        Your Transaction will appear here..
+                      </span>
+                    </li>
+                    <li
+                      className="flex items-center justify-between w-full my-2 mb-3"
+                      id="coin-status"
+                    >
+                      <a
+                        className="para-level-3 cursor-pointer"
+                        href={blockUrl}
+                      >
+                        View more on explore
+                      </a>
+                      <span>
+                        <ion-icon name="arrow-redo-outline"></ion-icon>
+                      </span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </div>
       )}
 
-      <div className="overlay hidden">
-        <section className="section-pop" id="model-menu">
-          <div className="pop-menu">
-            <div className="pop-header w-full flex justify-end ">
-              <p id="close" onClick={closeModal}>
+      {isNetworkModalOpen && (
+        <div className="overlay-window">
+          <section className="section-wallet" id="switch-network">
+            <div className="pop-header w-full flex items-center justify-evenly">
+              <h5 className="para-level-1 w-full">Switch Network</h5>
+              <p onClick={toggleNetworkModal} className="text-right w-full">
                 <ion-icon
                   name="close-outline"
-                  class="pop-icon text-right"
+                  className="para-level-1"
                 ></ion-icon>
               </p>
             </div>
-            <ul className="pop-list-menu">
-              <li className="">
-                <ul className="pop-list">
-                  <li className="flex items-center gap-3 text-white flex-col">
-                    <img src={logo} alt="" className="icon-img" />
-                    <p className="heading-5">
-                      {shortenAddress(currentAccount)}
-                    </p>
-                    <p className="heading-5 " id="account-balance">
-                      0 Eth
-                    </p>
-                  </li>
-                  <li
-                    className="grid gap-4 grid-cols-2 grid-flow-row "
-                    id="meta-status"
-                  >
-                    <p
-                      className="mt-2 gap-4 mb-4 rounded-lg bg-[#2d2e33] p-4 text-center cursor-pointer "
-                      onClick={copyToClipboard}
-                    >
-                      <ion-icon
-                        name="copy-outline"
-                        className="w-6 h-6 my-2"
-                      ></ion-icon>
-                      <br />
-                      <span className="para-level-3">Copy Address</span>
-                    </p>
-                    <p
-                      className=" mt-2 gap-4 mb-4 rounded-lg bg-[#2d2e33] p-4  text-center cursor-pointer"
-                      onClick={getLogout}
-                    >
-                      <ion-icon
-                        name="exit-outline"
-                        className="w-6 h-6 my-2"
-                      ></ion-icon>
-                      <br />
-                      <span className="para-level-3">Disconnect</span>
-                    </p>
-                  </li>
-                </ul>
-              </li>
-              <li className="">
-                <ul className="pop-list">
-                  <li className="w-full text-left">
-                    <span className="heading-5">
-                      Your Transaction will appear here..
+            <article className="mt-32">
+              {buttonsData.map((button) => (
+                <button
+                  id={button.id}
+                  key={button.id}
+                  data-user-id={button.userId}
+                  onClick={handleChainChangeClick}
+                  className={button.className}
+                >
+                  <p className="flex items-center">
+                    <img
+                      src={button.img}
+                      alt={button.label}
+                      className="w-6 h-6"
+                    />
+                    <span className="px-2"> {button.label}</span>
+                    <span className="text-green-600">
+                      {chainId === button.userId ? "Active" : ""}
                     </span>
-                  </li>
-                  <li
-                    className="flex items-center justify-between w-full my-2 mb-3"
-                    id="coin-status"
-                  >
-                    <a className="para-level-3 cursor-pointer" href={blockUrl}>
-                      View more on explore
-                    </a>
-                    <span>
-                      <ion-icon name="arrow-redo-outline"></ion-icon>
-                    </span>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </section>
-      </div>
-      <div className="overlay-window hidden">
-        <section className="section-wallet hidden" id="switch-network">
-          <div className="pop-headerw-full flex items-center justify-evenly">
-            <h5 className="para-level-1 w-full">Switch Network</h5>
-            <p onClick={closeSwitch} className="text-right w-full">
-              <ion-icon
-                name="close-outline"
-                className="para-level-1"
-              ></ion-icon>
-            </p>
-          </div>
-
-          <article className="mt-32">
-            {buttonsData.map((button) => (
-              <button
-                id={button.id}
-                key={button.id}
-                data-user-id={button.userId}
-                onClick={handleChainChangeClick}
-                className={button.className}
-              >
-                <p className="flex items-center">
-                  <img src={button.img} alt="" className="w-6 h-6" />
-                  <span className="px-2"> {button.label}</span>
-                  <span className="text-green-600" id="active-status">
-                    {chainId === button.userId ? "Active" : ""}
-                  </span>
-                </p>
-              </button>
-            ))}
-          </article>
-        </section>
-      </div>
+                  </p>
+                </button>
+              ))}
+            </article>
+          </section>
+        </div>
+      )}
     </nav>
   );
 };
+
 export default Navbar;
+
