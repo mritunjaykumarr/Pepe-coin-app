@@ -4,7 +4,7 @@ import {
   handleClick,
   postDataFromUser,
   updateUserData,
-} from "./api";
+} from "../utlis/api.js";
 import earnPepe from "../image/refers/earnPepe.mp4";
 import refer from "../image/refers/refer.png";
 import refersAnimation from "../image/refers/pepe-refer-animation.mp4";
@@ -36,7 +36,7 @@ const Refer = () => {
   const [taskClaim, setTaskClaim] = useState(0);
   const [dailyClaim, setDailyClaim] = useState(0);
   const [referClaim, setReferClaim] = useState(0);
-  const [totalClaim, setTotalCalim] = useState(0);
+  const [totalClaimBal, setTotalCalim] = useState(0);
   const [referFriend, setReferFriend] = useState(0);
   const [ethereumAccount, setEthereumAcount] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
@@ -73,10 +73,6 @@ const Refer = () => {
     }
   };
 
-  const totalBalance =
-    Number(todayClaim) + Number(taskMoney) + Number(referDataTotal);
-
-  // console.log(todayClaim, taskMoney, totalBalance);
 
   const copyToClipboard = async () => {
     try {
@@ -87,32 +83,34 @@ const Refer = () => {
       throw new Error("FAILED TO COPY ADDRESSS.PLEASE TRY AGAIN", err);
     }
   };
-
+  // console.log(ethereumAccount == currentAccount)
   // create account based on these data
   const postObj = {
     ethereumId: currentAccount,
     totalBalance: 0,
     referralCode: randomCode,
-    todayClaim: 100,
+    todayClaim: 0,
     totalEarnDay: 0,
     referEarn: 0,
     referredUser: [],
   };
 
   // for updating the user account balance
+
   const updatedObj = {
     todayClaim: todayClaim,
     totalEarnDay: taskMoney,
-    totalBalance: totalBalance,
     referEarn: referAmount,
     referredUsers: [
       {
         ethereumId: referId,
-        status: "success",
+        status: referId.length > 0 ? "sucess" : "pending",
         referTime: new Date(),
       },
     ],
   };
+
+  // console.log(...updatedObj)
 
   const updateUI = async () => {
     try {
@@ -129,25 +127,27 @@ const Refer = () => {
       setReferFriend(setVariable.referredUsers.length);
       setEthereumAcount(setVariable.ethereumId);
     } catch (error) {
-      throw new Error("can't find the user on your currentAcount adress");
+      throw new Error(
+        "can't find the user on your currentAcount adress",
+        error
+      );
     }
   };
 
   const createAccount = async () => {
-    try {
-      if (ethereumAccount === currentAccount) return;
+    if (currentAccount === ethereumAccount) return;
+    if (currentAccount !== ethereumAccount) {
       await postDataFromUser(postObj);
-    } catch (error) {
-      throw new Error("UNABLE TO CREATE ACCOUNT!", error);
     }
   };
   const updateAccount = async () => {
     try {
       if (ethereumAccount === currentAccount) {
         await updateUserData(currentAccount, updatedObj);
+        console.log(currentAccount,updatedObj)
       }
     } catch (error) {
-      throw new Error("UNABLE TO CREATE ACCOUNT!", error);
+      throw new Error("UNABLE TO UPDATING ACCOUNT!", error);
     }
   };
 
@@ -157,18 +157,16 @@ const Refer = () => {
   const handleClaim = async () => {
     const result = await handleClick(currentAccount);
     // alert(result.message);
+    setTodayClaim(100);
     if (result.success) {
-      setTodayClaim(100);
       setIsDisabled(true);
     }
   };
+  console.log(totalClaimBal,"this from line 166")
 
   ////////////////////////////////////////////
 
   useEffect(() => {
-    if (currentAccount.length > 0) {
-      createAccount();
-    }
     fetchData(); // to get all user from database
     updateAccount();
     updateUI();
@@ -189,7 +187,7 @@ const Refer = () => {
           onClick={connectWallet}
         >
           {currentAccount.length > 0
-            ? `Total Earn: ${totalClaim}`
+            ? `Total Earn: ${totalClaimBal}`
             : "Connect With Metamask"}
         </button>
 
@@ -285,16 +283,20 @@ const Refer = () => {
             <div className="bubble bubble8" />
             <div className="bubble bubble9" />
             <div className="challenge-box">
-              <h2 className="h2">Daily Challenge</h2>
-              <p id="challenge">Complete today's task</p>
+              {
+                ethereumAccount.length> 0 ?
+              <><h2 className="h2">Daily Challenge</h2><p id="challenge">Complete today's task</p></> : ""}
               <button
                 id="claimButton button"
                 disabled={todayClaim > 0 ? true : false}
-                onClick={handleClaim}
+                onClick={ethereumAccount.length> 0 ? handleClaim : createAccount}
               >
-                Claim Today's Coins
+                {ethereumAccount.length > 0
+                  ? "Claim Today's Coins"
+                  : "Create Refer Account"}
               </button>
-              <p id="coins">Coins Earned: {dailyClaim} PEPE TODAY!</p>
+              {ethereumAccount.length>0? <p id="coins">Coins Earned: {dailyClaim} PEPE TODAY!</p> : " "}
+             
               {todayClaim ? (
                 <Countdown
                   date={targetDate}
