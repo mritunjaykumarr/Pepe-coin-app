@@ -1,5 +1,5 @@
 import "../style/cookie.css"; // Ensure to create this CSS file
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
 const CookieConsent = () => {
@@ -7,38 +7,34 @@ const CookieConsent = () => {
   const [cookieToken, setCookieToken] = useState("");
   const [cookies, setCookie] = useCookies(["cookieConsent", "referralCode"]); // Add other cookies as needed
 
-  // extract url from refer link
-
-  useMemo(() => {
+  // Extract the referral code from the URL
+  useEffect(() => {
     const path = window.location.pathname;
     const regex = /\/refer\/([a-f0-9\-]+)/;
     const match = path.match(regex);
 
     if (match) {
       const uniqueId = match[1];
-      // console.log(uniqueId); // "dfff80-53b6-4507-9ced-76b2f18bb29f"
-      setCookieToken(() => uniqueId);
+      setCookieToken(uniqueId);
     }
-    console.log(cookieToken);
-  }, [cookieToken]);
+  }, []); // Empty dependency array so this runs only once
 
+  // Check if the cookieConsent cookie is set
   useEffect(() => {
-    // Check if the cookieConsent cookie is set
-
     if (!cookies.cookieConsent) {
       setShowBanner(true); // Show banner if cookieConsent is not found
     }
-  }, [cookies]);
+  }, [cookieToken, cookies.cookieConsent]);
 
   const handleAcceptAllCookies = () => {
-    const referralCode = cookieToken; // Replace with the actual referral code
     const expires = new Date();
     expires.setDate(expires.getDate() + 1); // Set expiration to 1 day
 
     setCookie("cookieConsent", "accepted", { path: "/", maxAge: 31536000 }); // Set cookie for 1 year
-    setCookie("referralCode", referralCode, { path: "/", expires }); // Set referral code cookie
+    setCookie("referralCode", cookieToken, { path: "/", expires }); // Set referral code cookie
 
-    console.log("Cookie set successfully with referralCode:", referralCode);
+    console.log("Cookie set successfully with referralCode:", cookieToken);
+    
 
     setShowBanner(false); // Hide the banner
   };
@@ -49,7 +45,6 @@ const CookieConsent = () => {
   };
 
   const handleManageCookies = () => {
-    // Optionally redirect or open a modal for cookie management
     window.location.href = "/cookie-policy"; // Example redirection to a cookie management page
   };
 
