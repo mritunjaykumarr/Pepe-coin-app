@@ -6,15 +6,11 @@ import "../style/refer.css";
 
 const VisitedLink = ({ url, title, value }) => {
   const [visited, setVisited] = useState(false);
-  const [taskMoneyList, setTaskMoneyList] = useState([]);
-
   const { currentAccount } = useContext(TransactionContext);
-
-  // const [count,setCount] = useState(0)
   const { setTaskMoney, setTaskMoneyBal } = useContext(ReferContext);
 
   useEffect(() => {
-    // Check if the link has been visited before
+    // Check if this specific link has been visited before
     const visitedLinks = JSON.parse(localStorage.getItem("visitedLinks")) || [];
     if (visitedLinks.includes(url)) {
       setVisited(true);
@@ -23,47 +19,42 @@ const VisitedLink = ({ url, title, value }) => {
 
   const handleClick = (e) => {
     e.preventDefault(); // Prevent default link behavior
-    // const buttonValue = e.target.getAtribute;
-    const dataAttribute = Number(e.target.dataset.reward);
-    const numValue = parseFloat(dataAttribute);
-    setTaskMoneyBal(numValue);
 
-    // Store the clicked button's value in the state
-    if (visited) {
-      // Ensure `prevList` is an array before updating state
+    if (!visited) {
+      const numValue = parseFloat(e.target.dataset.reward);
 
       if (!isNaN(numValue)) {
-        // Update the list
-        setTaskMoneyList((prevList) => [...prevList, numValue]);    
+        // Update task money and balance
         setTaskMoney((prevTotal) => prevTotal + numValue);
+        setTaskMoneyBal(numValue);
 
+        // Mark this link as visited
+        const visitedLinks =
+          JSON.parse(localStorage.getItem("visitedLinks")) || [];
+        visitedLinks.push(url);
+        localStorage.setItem("visitedLinks", JSON.stringify(visitedLinks));
+
+        // Set the state to mark this link as visited
+        setVisited(true);
       } else {
-        console.error("Invalid number:", dataAttribute);
+        console.error("Invalid number:", numValue);
       }
-    }
 
-    // Mark the specific link as visited in local storage
-    const visitedLinks = JSON.parse(localStorage.getItem("visitedLinks")) || [];
-    if (!visitedLinks.includes(url)) {
-      visitedLinks.push(url);
-      localStorage.setItem("visitedLinks", JSON.stringify(visitedLinks));
-      setVisited(true);
+      // Open the link in a new tab
+      window.open(url, "_blank");
     }
-
-    // Open the link in a new tab
-    window.open(url, "_blank");
   };
-  // console.log(visited,"THIS FROM VISTIED LINK 26",taskMoney)
+
+  console.log(visited,"THIS IS COMMING FROM VISTED")
 
   return (
     <a
-      href={url}
       onClick={handleClick}
       className="task-button"
       data-reward={currentAccount > 0 ? value : 0}
-      key={url + title} // Change the color if visited
+      disabled={visited} // Disable the button if visited
     >
-      {title}
+      {visited ? "Task Verified" : title}
     </a>
   );
 };

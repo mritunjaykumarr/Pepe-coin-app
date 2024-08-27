@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&family=New+Amsterdam&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Margarine&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Tint&family=New+Amsterdam&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Margarine&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 /* Body and Background */
 .refer-body {
@@ -14,15 +14,13 @@
   background-attachment: fixed;
 }
 
-
-
 /* Header Styles */
 .header-el {
   background-color: rgba(58, 154, 217, 0.8);
   /* Semi-transparent background */
   color: #fff;
   padding: 3em 0;
-  /* text-align: center; */
+  text-align: center;
   border-bottom: 5px solid #0a74da;
   position: relative;
   overflow: hidden;
@@ -46,7 +44,6 @@
 }
 
 .header-el h1 {
-
   text-align: center;
   /* padding-top: 40px; */
   font-family: "Bungee Tint", sans-serif;
@@ -54,17 +51,8 @@
   font-style: normal;
   font-size: 65px;
   color: #fff;
-  text-shadow:
-    0 0 7px #fff,
-    0 0 10px #fff,
-    0 0 21px #fff,
-    0 0 42px #0fa,
-    0 0 82px #0fa,
-    0 0 92px #0fa,
-    0 0 102px #0fa,
-    0 0 151px #0fa;
-
-
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
+    0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
 
   margin-bottom: 0.5em;
   /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
@@ -79,18 +67,18 @@
 
 /* Existing styles... */
 
-
-
 .metamask-button {
-  background-color: #ff9800 !important
-  ;
+  background-color: #ff9800 !important;
   color: #ffffff;
-  border: 2px solid #e68a00;
-  padding: 10px 20px;
-  font-size: 16px;
+  border: 2px solid #4caf50;
+  padding: 21px 188px;
+  font-size: 24px;
   cursor: pointer;
-  margin-top: -85px;
-  border-radius: 5px;
+  /* margin-top: 100px; */
+  border-radius: 24px;
+  font-weight: 700;
+  font-family: system-ui;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .metamask-button:hover {
@@ -104,10 +92,7 @@
 }
 
 .section-el {
-  background: rgba(255,
-      255,
-      255,
-      0.9);
+  background: rgba(255, 255, 255, 0.9);
   /* Slightly transparent white background */
   padding: 2em;
   margin-bottom: 2em;
@@ -147,11 +132,9 @@
 /* Daily Tasks Styles */
 #tasks {
   position: relative;
-
 }
 
 .task {
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -219,9 +202,11 @@
   left: 50%;
   width: 300%;
   height: 300%;
-  background: radial-gradient(circle,
-      rgba(255, 255, 255, 0.3) 20%,
-      rgba(255, 255, 255, 0) 60%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0) 60%
+  );
   border-radius: 50%;
   transition: transform 0.4s ease, background 0.4s ease;
   transform: translate(-50%, -50%) scale(0);
@@ -231,9 +216,11 @@
 /* Show Effect on Hover */
 .task-button:hover::before {
   transform: translate(-50%, -50%) scale(1);
-  background: radial-gradient(circle,
-      rgba(255, 255, 255, 0.3) 20%,
-      rgba(255, 255, 255, 0) 80%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0) 80%
+  );
 }
 
 /* Ensure button text is on top of the effect */
@@ -269,8 +256,6 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-
-
 /* Footer Styles */
 .footer-el {
   background: rgba(58, 154, 217, 0.8);
@@ -297,9 +282,7 @@
   position: relative;
   /* For pseudo-element */
   overflow: hidden;
-  background: linear-gradient(135deg,
-      #f6d365 10%,
-      #fda085 100%);
+  background: linear-gradient(135deg, #f6d365 10%, #fda085 100%);
   /* Gradient background */
 }
 
@@ -395,9 +378,11 @@
   left: 50%;
   width: 300%;
   height: 300%;
-  background: radial-gradient(circle,
-      rgba(255, 255, 255, 0.3) 20%,
-      rgba(255, 255, 255, 0) 60%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0) 60%
+  );
   border-radius: 50%;
   transition: transform 0.4s ease, background 0.4s ease;
   transform: translate(-50%, -50%) scale(0);
@@ -407,9 +392,11 @@
 /* Show Effect on Hover */
 .form button:hover::before {
   transform: translate(-50%, -50%) scale(1);
-  background: radial-gradient(circle,
-      rgba(255, 255, 255, 0.3) 20%,
-      rgba(255, 255, 255, 0) 80%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0) 80%
+  );
 }
 
 /* Ensure button text is on top of the effect */
@@ -429,9 +416,6 @@
 
 /* //////////////////////Referal system//////////////////// */
 
-
-
-
 .header-el {
   background-color: #4caf50;
   padding: 20px;
@@ -446,7 +430,6 @@
 /* DAILY CHANLLANGES */
 
 /* styles.css */
-
 
 .container-el {
   /* width: 1366px;
@@ -615,9 +598,8 @@
 
 /* INTRO SECTION */
 
-
 #intro {
-  background: url('images/pepe-bg.jpg') no-repeat center center;
+  background: url("images/pepe-bg.jpg") no-repeat center center;
   background-size: cover;
   padding: 64px 20px 48px 20px;
   text-align: center;
@@ -720,7 +702,6 @@
   text-align: center;
   margin-bottom: 20px;
   color: #333;
-
 }
 
 .step-image {
@@ -728,7 +709,8 @@
   margin-bottom: 10px;
   border-radius: 15px;
   border: 2px solid #99999973;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 
   /* .step-images {
     width: 250px;

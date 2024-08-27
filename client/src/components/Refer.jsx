@@ -65,12 +65,6 @@ const Refer = () => {
     try {
       const { data } = await fetchUserByReferId(cookieValue);
       const userData = data.data.user;
-      // console.log(
-      //   userData.ethereumId,
-      //   currentAccount,
-      //   "this from line 60 👍👍"
-      // );
-      // check if same user open their account
 
       if (
         cookieValue === userData.referralCode &&
@@ -274,6 +268,7 @@ const Refer = () => {
                     url="https://x.com/?lang=en"
                     className="cursor-pointer"
                     title={"Follow us on Twitter"}
+                    value={5}
                   />
                   <span className="reward">+10 Coins</span>
                 </div>
@@ -291,7 +286,11 @@ const Refer = () => {
                   <VisitedLink
                     url="https://www.facebook.com/"
                     className="cursor-pointer"
-                    title={" Share our post on Facebook"}
+                    title={
+                      taskMoneyBal > 0
+                        ? "task verfied"
+                        : "Share our post on Facebook"
+                    }
                     value={15}
                   />
 
@@ -301,7 +300,11 @@ const Refer = () => {
                   <VisitedLink
                     url="https://www.youtube.com/"
                     className="cursor-pointer"
-                    title={"Subscribe Our Youtube Channel"}
+                    title={
+                      taskMoneyBal > 0
+                        ? "task verfied"
+                        : "Subscribe Our Youtube Channel"
+                    }
                     value={25}
                   />
 
