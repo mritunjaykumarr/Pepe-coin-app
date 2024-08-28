@@ -233,7 +233,7 @@ const Refer = () => {
   }, [currentAccount]);
 
   const baseUrl = window.location.origin;
-  // const referLink = `https://pepelayer2.com/referral/${token}`;
+  const referLink = `https://pepelayer2.com/referral/${token}`;
   const referLink = `${baseUrl}/refer/${token.length > 0 ? token : ""}`;
 
   return (
